@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.quaigon.kamil.goban.GobanView
+        android:id="@+id/goban_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <Button
+            android:id="@+id/loadsgf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load sgf" />
+
+        <TextView
+            android:id="@+id/moveNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="999" />
+
+        <Button
+            android:id="@+id/prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="prev" />
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next" />
+    </LinearLayout>
+</LinearLayout>
