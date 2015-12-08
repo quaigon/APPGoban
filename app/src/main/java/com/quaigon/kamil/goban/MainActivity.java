@@ -22,11 +22,20 @@ public class MainActivity extends RoboActionBarActivity {
 
 
     private static final int FILE_SELECT_CODE = 10;
-    private GobanView gobanView;
     private Goban goban;
     private GameManager gameManager;
+
     @InjectView(R.id.moveNo)
     private TextView moveNoView;
+
+    @InjectView(R.id.goban_view)
+    private GobanView gobanView;
+
+    @InjectView(R.id.prev)
+    private Button buttonPrev;
+
+    @InjectView(R.id.next)
+    private Button buttonNext;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -41,11 +50,15 @@ public class MainActivity extends RoboActionBarActivity {
         goban = new Goban();
         gobanView.setGobanModel(goban);
         gobanView.invalidate();
+        buttonNext.setEnabled(true);
+        buttonPrev.setEnabled(true);
     }
 
     private void refreshView() {
         gobanView.invalidate();
-        moveNoView.setText(String.valueOf(gameManager.getMoveNo()));
+        if (gameManager != null) {
+            moveNoView.setText(String.valueOf(gameManager.getMoveNo()));
+        }
     }
 
     @Override
@@ -53,36 +66,32 @@ public class MainActivity extends RoboActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.goban_view_layout);
 
-        gobanView = (GobanView) findViewById(R.id.goban_view);
-
-        goban = new Goban();
-        gobanView.setGobanModel(goban);
 
 
-        final Button buttonNext = (Button) findViewById(R.id.next);
+        buttonNext.setEnabled(false);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Goban goban = gameManager.getNextState();
-                goban.printGroups();
-                goban.printStones();
                 gobanView.setGobanModel(goban);
                 refreshView();
             }
         });
 
 
-        final Button buttonPrev = (Button) findViewById(R.id.prev);
+        buttonPrev.setEnabled(false);
         buttonPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (gameManager.getMoveNo() == 0) {
+                   return;
+                }
                 Goban goban = gameManager.getPreviousState();
-                goban.printGroups();
-                goban.printStones();
                 gobanView.setGobanModel(goban);
                 refreshView();
             }
         });
+
 
         final Button buttonLoadSGF = (Button) findViewById(R.id.loadsgf);
         buttonLoadSGF.setOnClickListener(new View.OnClickListener() {
@@ -93,14 +102,15 @@ public class MainActivity extends RoboActionBarActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Wybierz SGF"), 1000);
                 refreshView();
+
             }
         });
 
-        loadURI("/storage/emulated/0/Download/__go4go_20110315_Tan-Xiao_Ke-Jie.sgf");
-        Goban goban = null;
-        for (int i = 0; i < 60;++i) {
-            goban = gameManager.getNextState();
-        }
+//        loadURI("/storage/emulated/0/Download/__go4go_20110315_Tan-Xiao_Ke-Jie.sgf");
+//        Goban goban = null;
+//        for (int i = 0; i < 60;++i) {
+//            goban = gameManager.getNextState();
+//        }
         gobanView.setGobanModel(goban);
         refreshView();
     }

@@ -13,7 +13,6 @@ import java.util.List;
 
 
 public class GobanView extends View {
-    private static final float marg = 50;
     private Context context;
     private Goban gobanModel;
     private DisplayMetrics dm;
@@ -57,7 +56,6 @@ public class GobanView extends View {
         super.onDraw(canvas);
 
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
-        float density = dm.density;
 
         paint.getStrokeWidth();
         paint.setStyle(Paint.Style.FILL);
@@ -66,21 +64,22 @@ public class GobanView extends View {
 
         paint.setStrokeWidth(0);
         float screenWidth = getWidth();
-        float squareWidth = ((screenWidth - 2 * marg) / 18) + paint.getStrokeWidth();
+        float squareWidth = Math.round(screenWidth/20 + paint.getStrokeWidth());
         float squareHeight = squareWidth;
 
 
         paint.setColor(Color.BLACK);
 
         for (int i = 1; i <= 19; i++) {
-            canvas.drawLine(marg, i * squareHeight, screenWidth - marg, i * squareHeight, paint);
+            canvas.drawLine(squareWidth, i * squareHeight, screenWidth - squareWidth, i * squareHeight, paint);
         }
 
 
         for (int i = 0; i < 19; i++) {
-            canvas.drawLine(marg + i * squareWidth, squareHeight, marg + squareWidth * i, 19 * squareHeight, paint);
+            canvas.drawLine( (1 + i )* squareWidth, squareHeight,(1 + i )* squareWidth , 19 * squareHeight, paint);
         }
 
+        if (gobanModel != null) {
 
         List<Field> fields = gobanModel.getNonEmptyFields();
         float radius = squareWidth / 2;
@@ -88,11 +87,9 @@ public class GobanView extends View {
         if (radius % 2 != 0) {
             radius = radius -1;
         }
-        int count = 1;
         for (Field field : fields) {
-            count++;
-            int x = field.getX()-1;
-            int y = field.getY()-1;
+            int x = field.getX() - 1;
+            int y = field.getY() - 1;
 
             if (field.getStone().getColor() == 0) {
                 paint.setColor(Color.WHITE);
@@ -100,15 +97,13 @@ public class GobanView extends View {
                 paint.setColor(Color.BLACK);
             }
 
-            float newx = marg + x * (squareWidth);
-            float newy = marg + y * (squareHeight);
+            float newx = squareWidth + x * (squareWidth);
+            float newy = squareWidth + y * (squareHeight);
 
             canvas.drawCircle(newx, newy, radius, paint);
 
-//            if (fields.size() == count) {
-//                paint.setColor(Color.YELLOW);
-//                canvas.drawCircle(newx, newy, radius-20, paint);
-//            }
+        }
+
         }
     }
 }
