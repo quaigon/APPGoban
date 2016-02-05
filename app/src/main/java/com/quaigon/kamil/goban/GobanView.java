@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.List;
@@ -64,7 +66,9 @@ public class GobanView extends View {
 
         paint.setStrokeWidth(0);
         float screenWidth = getWidth();
-        float squareWidth = Math.round(screenWidth/20 + paint.getStrokeWidth());
+        float squareWidth = screenWidth / 20 + paint.getStrokeWidth();
+        float radius = squareWidth / 2;
+        squareWidth = Math.round(squareWidth);
         float squareHeight = squareWidth;
 
 
@@ -82,7 +86,7 @@ public class GobanView extends View {
         if (gobanModel != null) {
 
         List<Field> fields = gobanModel.getNonEmptyFields();
-        float radius = squareWidth / 2;
+
 
         if (radius % 2 != 0) {
             radius = radius -1;
@@ -105,5 +109,15 @@ public class GobanView extends View {
         }
 
         }
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+
+        Log.d("Goban", " x: "+x + "y: "+y);
+        return super.onTouchEvent(event);
     }
 }
