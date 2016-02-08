@@ -14,7 +14,7 @@ import java.io.File;
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.inject.InjectView;
 
-public class MainActivity extends RoboActionBarActivity {
+public class GobanActivity extends RoboActionBarActivity {
     public final static String pjhw = "(;DT[2010-10-13]EV[15th Samsung Cup]\n" +
             "PB[Choi Cheolhan]BR[9p]PW[Park Jungwhan]WR[8p]\n" +
             "KM[6.5]RE[W+R]SO[Go4Go.net]\n" +
@@ -106,11 +106,7 @@ public class MainActivity extends RoboActionBarActivity {
             }
         });
 
-//        loadURI("/storage/emulated/0/Download/__go4go_20110315_Tan-Xiao_Ke-Jie.sgf");
-//        Goban goban = null;
-//        for (int i = 0; i < 60;++i) {
-//            goban = gameManager.getNextState();
-//        }
+
         gobanView.setGobanModel(goban);
         refreshView();
     }
