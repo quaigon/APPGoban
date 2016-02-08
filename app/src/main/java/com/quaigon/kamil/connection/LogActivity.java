@@ -1,4 +1,4 @@
-package com.quaigon.kamil.goban;
+package com.quaigon.kamil.connection;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.quaigon.kamil.goban.R;
 
 import retrofit2.Call;
 import roboguice.activity.RoboActionBarActivity;
@@ -49,14 +51,14 @@ public class LogActivity extends RoboActionBarActivity {
                 getTokenAsyncTask.execute();
 
 
-                Intent intent = new Intent(LogActivity.this, MenuActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LogActivity.this, MenuActivity.class);
+//                startActivity(intent);
             }
         });
     }
 
 
-    public class GetTokenAsyncTask extends RoboAsyncTask<Void> {
+    public class GetTokenAsyncTask extends RoboAsyncTask<AccessToken> {
 
 
         public GetTokenAsyncTask(Context context) {
@@ -64,19 +66,17 @@ public class LogActivity extends RoboActionBarActivity {
         }
 
         @Override
-        public Void call() throws Exception {
+        public AccessToken call() throws Exception {
                 String username = "quaigon";
                 String password = "b4d8d75db2ce6c5f0855806d67c5d4d5";
+                String grantType = "password";
 
-                String grantType = "password"; //koniec kurwa
-
-                LoginService loginService = OAuthServiceGenrator.createService(LoginService.class, clientId, clientSecret);
+                LoginService loginService = OAuthServiceGenrator.createService(LoginService.class);
                 Call<AccessToken> call = loginService.getAccessToken(clientId, clientSecret, username, password, grantType);
                 AccessToken accessToken = call.execute().body();
 
-//                Ln.d(accessToken.getAccessToken());
 
-                    return null;
+            return accessToken;
         }
 
         @Override
@@ -85,8 +85,13 @@ public class LogActivity extends RoboActionBarActivity {
         }
 
         @Override
-        protected void onSuccess(Void aVoid) throws Exception {
-            super.onSuccess(aVoid);
+        protected void onSuccess(AccessToken accessToken) throws Exception {
+            Intent intent = new Intent(LogActivity.this, MenuActivity.class);
+            intent.putExtra("accesstoken", accessToken.getAccess_token());
+            intent.putExtra("refreshtoken", accessToken.getRefresh_token());
+            intent.putExtra("scope", accessToken.getScope());
+            intent.putExtra("expiresin", accessToken.getExpires_in());
+            startActivity(intent);
         }
     }
 

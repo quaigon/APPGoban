@@ -1,4 +1,4 @@
-package com.quaigon.kamil.goban;
+package com.quaigon.kamil.connection;
 
 import retrofit2.Call;
 import retrofit2.http.*;
