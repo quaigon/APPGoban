@@ -15,6 +15,9 @@ public class GameManager {
         init(provider);
     }
 
+
+
+
     private void init(SGFProvider provider) {
         this.gameStates = new ArrayList<>();
         SGFnode node = new SGFnode();

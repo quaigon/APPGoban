@@ -20,6 +20,7 @@ public class OAuthServiceGenrator {
 
     private static Retrofit.Builder retroBuilder = new Retrofit.Builder()
             .baseUrl(API_BASE_URL)
+            .addConverterFactory(new ToStringConverterFactory())
             .addConverterFactory(GsonConverterFactory.create());
 
 //    public static <S> S createService (Class<S> serviceClass) {
@@ -48,7 +49,7 @@ public class OAuthServiceGenrator {
 
 
 
-    public static <S> S createService(Class<S> serviceClass, final AccessToken token ) {
+    public static <S> S createService(Class<S> serviceClass, final AccessToken token, final String acceptHeader ) {
         if (token != null) {
             httpClient.addInterceptor(new Interceptor() {
                 @Override
@@ -56,8 +57,8 @@ public class OAuthServiceGenrator {
                     Request original = chain.request();
 
                     Request.Builder requestBuilder = original.newBuilder()
-                            .header("Accept", "application/json")
-//                            .header("Authorization", token.getTokenType()+ " " + token.getAccessToken())
+                            .header("Accept", acceptHeader)
+                            .header("Authorization", "Bearer " + token.getAccess_token())
                             .method(original.method(), original.body());
 
                     Request request = requestBuilder.build();

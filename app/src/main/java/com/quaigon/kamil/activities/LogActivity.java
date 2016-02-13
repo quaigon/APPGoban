@@ -1,4 +1,4 @@
-package com.quaigon.kamil.connection;
+package com.quaigon.kamil.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.inject.Inject;
+import com.quaigon.kamil.connection.AccessToken;
+import com.quaigon.kamil.connection.AuthenticationRepository;
+import com.quaigon.kamil.connection.ConnectionService;
+import com.quaigon.kamil.connection.OAuthServiceGenrator;
 import com.quaigon.kamil.goban.R;
 
 import retrofit2.Call;
@@ -26,6 +31,9 @@ public class LogActivity extends RoboActionBarActivity {
 
     @InjectView(R.id.passwordEditText)
     private EditText passwordEditText;
+
+    @Inject
+    AuthenticationRepository authRepo;
 
 
     private final static String clientId = "c864df57fa2c675f313d";
@@ -50,15 +58,12 @@ public class LogActivity extends RoboActionBarActivity {
                 GetTokenAsyncTask getTokenAsyncTask = new GetTokenAsyncTask(LogActivity.this);
                 getTokenAsyncTask.execute();
 
-
-//                Intent intent = new Intent(LogActivity.this, MenuActivity.class);
-//                startActivity(intent);
             }
         });
     }
 
 
-    public class GetTokenAsyncTask extends RoboAsyncTask<AccessToken> {
+    public class GetTokenAsyncTask extends RoboAsyncTask<Void> {
 
 
         public GetTokenAsyncTask(Context context) {
@@ -66,17 +71,17 @@ public class LogActivity extends RoboActionBarActivity {
         }
 
         @Override
-        public AccessToken call() throws Exception {
+        public Void call() throws Exception {
                 String username = "quaigon";
                 String password = "b4d8d75db2ce6c5f0855806d67c5d4d5";
                 String grantType = "password";
 
-                LoginService loginService = OAuthServiceGenrator.createService(LoginService.class);
-                Call<AccessToken> call = loginService.getAccessToken(clientId, clientSecret, username, password, grantType);
+                ConnectionService connectionService = OAuthServiceGenrator.createService(ConnectionService.class);
+                Call<AccessToken> call = connectionService.getAccessToken(clientId, clientSecret, username, password, grantType);
                 AccessToken accessToken = call.execute().body();
+                authRepo.saveAccessToken(accessToken);
 
-
-            return accessToken;
+            return null;
         }
 
         @Override
@@ -85,12 +90,8 @@ public class LogActivity extends RoboActionBarActivity {
         }
 
         @Override
-        protected void onSuccess(AccessToken accessToken) throws Exception {
+        protected void onSuccess(Void result) throws Exception {
             Intent intent = new Intent(LogActivity.this, MenuActivity.class);
-            intent.putExtra("accesstoken", accessToken.getAccess_token());
-            intent.putExtra("refreshtoken", accessToken.getRefresh_token());
-            intent.putExtra("scope", accessToken.getScope());
-            intent.putExtra("expiresin", accessToken.getExpires_in());
             startActivity(intent);
         }
     }

@@ -1,16 +1,16 @@
-package com.quaigon.kamil.connection;
+package com.quaigon.kamil.activities;
 
 
 public class Game {
-    private String id;
+    private long id;
     private String sgf;
 
-    public Game(String id) {
+    public Game(long id) {
         this.id = id;
     }
 
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 

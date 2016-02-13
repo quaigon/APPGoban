@@ -1,4 +1,4 @@
-package com.quaigon.kamil.connection;
+package com.quaigon.kamil.activities;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -28,17 +28,17 @@ public class GameAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return games.size();
     }
 
     @Override
     public Game getItem(int position) {
-        return null;
+        return games.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -57,12 +57,15 @@ public class GameAdapter extends BaseAdapter {
 
 
         Game game = getItem(position);
-        viewHolder.gameIdTextView.setText(game.getId());
+        viewHolder.gameIdTextView.setText(Long.toString(game.getId()));
 
 
 
-        return null;
+        return view;
     }
+
+
+
 
 
 

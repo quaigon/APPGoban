@@ -1,10 +1,13 @@
-package com.quaigon.kamil.connection;
+package com.quaigon.kamil.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.inject.Inject;
+import com.quaigon.kamil.connection.AccessToken;
+import com.quaigon.kamil.connection.AuthenticationRepository;
 import com.quaigon.kamil.goban.GobanActivity;
 import com.quaigon.kamil.goban.R;
 
@@ -20,17 +23,6 @@ public class MenuActivity extends RoboActivity {
     @InjectView(R.id.getGamesButton)
     private Button getGamesButon;
 
-    @InjectExtra("accesstoken")
-    private String accessToken;
-
-    @InjectExtra("refreshtoken")
-    private String refreshToken;
-
-    @InjectExtra("scope")
-    private String scope;
-
-    @InjectExtra("expiresin")
-    private long expiresIn;
 
 
     private AccessToken token = null;
@@ -40,7 +32,6 @@ public class MenuActivity extends RoboActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        this.token = new AccessToken(accessToken,scope,expiresIn,refreshToken);
 
         this.openGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,9 +45,14 @@ public class MenuActivity extends RoboActivity {
         this.getGamesButon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Intent intent = new Intent(MenuActivity.this, GamesListActivity.class);
+                startActivity(intent);
             }
         });
 
     }
+
+
+
+
 }
