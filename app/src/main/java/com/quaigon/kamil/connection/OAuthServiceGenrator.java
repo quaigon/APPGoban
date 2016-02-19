@@ -1,7 +1,7 @@
 package com.quaigon.kamil.connection;
 
 
-import android.util.Base64;
+import com.quaigon.kamil.pojo.AccessToken;
 
 import java.io.IOException;
 

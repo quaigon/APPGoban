@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.inject.Inject;
-import com.quaigon.kamil.connection.AccessToken;
-import com.quaigon.kamil.connection.AuthenticationRepository;
+import com.quaigon.kamil.pojo.AccessToken;
 import com.quaigon.kamil.goban.GobanActivity;
 import com.quaigon.kamil.goban.R;
 
 import roboguice.activity.RoboActivity;
-import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 
 public class MenuActivity extends RoboActivity {

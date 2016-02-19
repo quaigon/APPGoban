@@ -9,4 +9,10 @@
         android:id="@+id/gameId"
         android:text="blala"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/players"
+        android:text="blabla"/>
+
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.quaigon.kamil.activities;
+package com.quaigon.kamil.pojo;
 
 import java.util.List;
 

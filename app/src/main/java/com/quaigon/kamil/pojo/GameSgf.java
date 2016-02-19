@@ -1,4 +1,4 @@
-package com.quaigon.kamil.connection;
+package com.quaigon.kamil.pojo;
 
 /**
  * Created by Kamil on 13.02.2016.

@@ -2,22 +2,21 @@ package com.quaigon.kamil.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.inject.Inject;
-import com.quaigon.kamil.connection.AccessToken;
+import com.quaigon.kamil.pojo.AccessToken;
 import com.quaigon.kamil.connection.AuthenticationRepository;
 import com.quaigon.kamil.connection.ConnectionService;
-import com.quaigon.kamil.connection.GameSgf;
+import com.quaigon.kamil.pojo.Game;
 import com.quaigon.kamil.connection.OAuthServiceGenrator;
 import com.quaigon.kamil.goban.GobanActivity;
 import com.quaigon.kamil.goban.R;
+import com.quaigon.kamil.pojo.Games;
 
 import java.util.List;
 

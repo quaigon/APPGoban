@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.quaigon.kamil.goban.R;
+import com.quaigon.kamil.pojo.Game;
+import com.quaigon.kamil.pojo.Player;
+import com.quaigon.kamil.pojo.Players;
 
 import java.util.List;
 
@@ -57,8 +60,11 @@ public class GameAdapter extends BaseAdapter {
 
 
         Game game = getItem(position);
+        Players players = game.getPlayers();
+        Player white = players.getWhite();
+        Player black = players.getBlack();
         viewHolder.gameIdTextView.setText(Long.toString(game.getId()));
-
+        viewHolder.gamePlayersTextView.setText(white.getUsername() + " vs " + black.getUsername());
 
 
         return view;
@@ -71,9 +77,11 @@ public class GameAdapter extends BaseAdapter {
 
     static class ViewHolder {
         private TextView gameIdTextView;
+        private TextView gamePlayersTextView;
 
         public ViewHolder (View convertView) {
             gameIdTextView = (TextView) convertView.findViewById(R.id.gameId);
+            gamePlayersTextView = (TextView) convertView.findViewById(R.id.players);
         }
 
 

@@ -105,9 +105,12 @@ public class Goban implements GroupManagerListener {
     }
 
     public void addSGFMove(String cords) {
-        char color = cords.charAt(1);
-        char x = cords.charAt(3);
-        char y = cords.charAt(4);
+        Ln.d(cords);
+        cords = cords.substring(Math.max(cords.length()-7,0));
+        Ln.d(cords);
+        char color = cords.charAt(0);
+        char x = cords.charAt(2);
+        char y = cords.charAt(3);
         switch (color) {
             case 'W':
                 putStone(Character.getNumericValue(x) - Character.getNumericValue('a') + 1, Character.getNumericValue(y) - Character.getNumericValue('a') + 1, 0);

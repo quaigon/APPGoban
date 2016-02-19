@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.inject.Inject;
-import com.quaigon.kamil.connection.AccessToken;
+import com.quaigon.kamil.pojo.AccessToken;
 import com.quaigon.kamil.connection.AuthenticationRepository;
 import com.quaigon.kamil.connection.ConnectionService;
 import com.quaigon.kamil.connection.OAuthServiceGenrator;
@@ -49,11 +49,11 @@ public class LogActivity extends RoboActionBarActivity {
             @Override
             public void onClick(View v) {
 
-//                String username = usernameEditText.getText().toString();
-//                String password = passwordEditText.getText().toString();
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
 
-                String username = "quaigon";
-                String password = "b4d8d75db2ce6c5f0855806d67c5d4d5";
+//                String username = "quaigon";
+//                String password = "b4d8d75db2ce6c5f0855806d67c5d4d5";
 
                 GetTokenAsyncTask getTokenAsyncTask = new GetTokenAsyncTask(LogActivity.this);
                 getTokenAsyncTask.execute();

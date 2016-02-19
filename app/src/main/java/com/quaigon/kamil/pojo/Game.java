@@ -1,7 +1,8 @@
-package com.quaigon.kamil.activities;
+package com.quaigon.kamil.pojo;
 
 
 public class Game {
+    private Players players;
     private long id;
     private String sgf;
 
@@ -16,5 +17,9 @@ public class Game {
 
     public String getSgf() {
         return sgf;
+    }
+
+    public Players getPlayers() {
+        return players;
     }
 }
