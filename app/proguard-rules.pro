@@ -51,3 +51,8 @@
     public void set*(...);
 } 
 -keep public class roboguice.**
+
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
