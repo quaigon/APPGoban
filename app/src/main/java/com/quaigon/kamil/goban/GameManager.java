@@ -29,7 +29,10 @@ public class GameManager {
 
     public Goban getNextState() {
         Goban goban = new Goban(getLastState());
-        this.walker.getNextMove();
+        if (this.walker.getNextMove() == null) {
+            return null;
+        }
+
         goban.addSGFMove(walker.printCurrent());
         this.gameStates.add(goban);
         return goban;

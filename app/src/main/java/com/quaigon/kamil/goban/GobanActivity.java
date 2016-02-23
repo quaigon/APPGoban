@@ -18,7 +18,7 @@ import roboguice.inject.InjectView;
 
 public class GobanActivity extends RoboActionBarActivity {
 
-    @InjectExtra(value = "sgf", optional=true)
+    @InjectExtra(value = "sgf", optional = true)
     private String gameSgf = "(;DT[2010-10-13]EV[15th Samsung Cup]\n" +
             "PB[Choi Cheolhan]BR[9p]PW[Park Jungwhan]WR[8p]\n" +
             "KM[6.5]RE[W+R]SO[Go4Go.net]\n" +
@@ -76,21 +76,26 @@ public class GobanActivity extends RoboActionBarActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.goban_view_layout);
 
 
-
         buttonNext.setEnabled(false);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonPrev.setEnabled(true);
                 Goban goban = gameManager.getNextState();
-                gobanView.setGobanModel(goban);
-                refreshView();
+                if (goban == null){
+                    buttonNext.setEnabled(false);
+                    return;
+                }
+                    gobanView.setGobanModel(goban);
+                    refreshView();
+
+
             }
         });
 
@@ -99,8 +104,10 @@ public class GobanActivity extends RoboActionBarActivity {
         buttonPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonNext.setEnabled(true);
                 if (gameManager.getMoveNo() == 0) {
-                   return;
+                    buttonPrev.setEnabled(false);
+                    return;
                 }
                 Goban goban = gameManager.getPreviousState();
                 gobanView.setGobanModel(goban);
