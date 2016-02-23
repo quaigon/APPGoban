@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.inject.Inject;
 import com.quaigon.kamil.pojo.AccessToken;
 import com.quaigon.kamil.connection.AuthenticationRepository;
@@ -32,12 +30,6 @@ public class GamesListActivity extends RoboListActivity {
     private AccessToken token;
     private GameAdapter gameAdapter;
     private List<Game> listGames;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +42,6 @@ public class GamesListActivity extends RoboListActivity {
         GetGamesAsyncTask getGamesAsyncTask = new GetGamesAsyncTask(this);
         getGamesAsyncTask.execute();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
