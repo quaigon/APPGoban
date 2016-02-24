@@ -1,6 +1,7 @@
 package com.quaigon.kamil.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ public class MenuActivity extends RoboActivity {
     @InjectView(R.id.getGamesButton)
     private Button getGamesButon;
 
+    private static final int FILE_SELECT_CODE = 10;
 
     private AccessToken token = null;
 
@@ -32,8 +34,10 @@ public class MenuActivity extends RoboActivity {
         this.openGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, GobanActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                intent.setType("file/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Wybierz SGF"), 1000);
             }
         });
 
@@ -48,5 +52,11 @@ public class MenuActivity extends RoboActivity {
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Uri uri = data.getData();
+        Intent intent = new Intent(MenuActivity.this, GobanActivity.class);
+        intent.putExtra("sgfPath", uri.getPath());
+        startActivity(intent);
+    }
 }

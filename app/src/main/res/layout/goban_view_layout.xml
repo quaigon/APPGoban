@@ -15,12 +15,6 @@
         android:orientation="horizontal"
         android:padding="4dp">
 
-        <Button
-            android:id="@+id/loadsgf"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:text="Load sgf" />
 
         <TextView
             android:id="@+id/moveNo"

@@ -41,11 +41,10 @@ public class GobanActivity extends RoboActionBarActivity {
     @InjectView(R.id.next)
     private Button buttonNext;
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Uri uri = data.getData();
-        loadURI(uri.getPath());
-    }
+    @InjectExtra(value = "sgfPath", optional = true)
+    private String sgfPath;
+
+
 
     private void loadURI(String uri) {
         File file = new File(uri);
@@ -55,7 +54,7 @@ public class GobanActivity extends RoboActionBarActivity {
         gobanView.setGobanModel(goban);
         gobanView.invalidate();
         buttonNext.setEnabled(true);
-        buttonPrev.setEnabled(true);
+        buttonPrev.setEnabled(false);
     }
 
     private void refreshView() {
@@ -81,6 +80,7 @@ public class GobanActivity extends RoboActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.goban_view_layout);
 
+        if (this.sgfPath != null) loadURI(sgfPath);
 
         buttonNext.setEnabled(false);
         buttonNext.setOnClickListener(new View.OnClickListener() {
@@ -116,18 +116,6 @@ public class GobanActivity extends RoboActionBarActivity {
         });
 
 
-        final Button buttonLoadSGF = (Button) findViewById(R.id.loadsgf);
-        buttonLoadSGF.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("file/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Wybierz SGF"), 1000);
-                refreshView();
-
-            }
-        });
 
         loadSgf(this.gameSgf);
         gobanView.setGobanModel(goban);
