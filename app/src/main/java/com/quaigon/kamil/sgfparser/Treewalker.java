@@ -1,9 +1,5 @@
 package com.quaigon.kamil.sgfparser;
 
-import android.util.Log;
-
-import java.util.Stack;
-
 public class Treewalker {
     SGFnode tree;
     SGFnode current;
@@ -14,8 +10,7 @@ public class Treewalker {
     }
 
 
-
-    public SGFnode getNextMove () {
+    public SGFnode getNextMove() {
         SGFnode temp;
         if (this.current.getChildren().size() == 0) {
             return null;
@@ -32,7 +27,7 @@ public class Treewalker {
     }
 
 
-    public String printCurrent () {
+    public String printCurrent() {
         StringBuffer sb = new StringBuffer();
         current.dump_properties(sb);
         return sb.toString();

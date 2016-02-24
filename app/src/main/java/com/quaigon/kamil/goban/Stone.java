@@ -1,7 +1,6 @@
 package com.quaigon.kamil.goban;
 
 
-
 public class Stone {
     private int color;
 
@@ -17,6 +16,6 @@ public class Stone {
 
     @Override
     public String toString() {
-        return ""+color;
+        return "" + color;
     }
 }

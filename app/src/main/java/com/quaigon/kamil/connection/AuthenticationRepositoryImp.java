@@ -14,12 +14,12 @@ public class AuthenticationRepositoryImp implements AuthenticationRepository {
 
     @Override
     public AccessToken loadAccessToken() {
-        String accessToken = settings.getString("accessToken", null );
+        String accessToken = settings.getString("accessToken", null);
         String scope = settings.getString("scope", null);
         long expiresIn = settings.getLong("expiresIn", 0);
         String refreshToken = settings.getString("refreshToken", null);
 
-        return new AccessToken(accessToken,scope,expiresIn,refreshToken);
+        return new AccessToken(accessToken, scope, expiresIn, refreshToken);
     }
 
     @Override

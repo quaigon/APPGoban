@@ -15,7 +15,7 @@ public class Group {
         this.fields.add(field);
     }
 
-    public Group (Group group) {
+    public Group(Group group) {
         this.fields = new HashSet<>();
         this.liberties = new HashSet<>();
         this.copyGroup(group);
@@ -30,11 +30,11 @@ public class Group {
         this.fields.add(field);
     }
 
-    public void addLiberty (Field field) {
+    public void addLiberty(Field field) {
         liberties.add(field);
     }
 
-    public HashSet<Field> getFields () {
+    public HashSet<Field> getFields() {
         return fields;
     }
 
@@ -43,14 +43,14 @@ public class Group {
     }
 
 
-    public int getLibertiesCount () {
-        int borderCount= 0;
+    public int getLibertiesCount() {
+        int borderCount = 0;
         for (Field f : fields) {
-            if (f.getX()==19 || f.getX() == 1) borderCount++;
-            if (f.getY()==19 || f.getY() == 1) borderCount++;
+            if (f.getX() == 19 || f.getX() == 1) borderCount++;
+            if (f.getY() == 19 || f.getY() == 1) borderCount++;
 
         }
-        return liberties.size()-borderCount;
+        return liberties.size() - borderCount;
     }
 
     public HashSet<Field> getLiberties() {
@@ -58,7 +58,7 @@ public class Group {
     }
 
 
-    public void copyGroup (Group group) {
+    public void copyGroup(Group group) {
         for (Field f : group.getFields()) {
             this.addField(new Field(f));
         }

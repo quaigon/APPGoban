@@ -1,14 +1,18 @@
 package com.quaigon.kamil.sgfparser;
 /**
- A tree of SGFnodes store the record of the game, and can
- import/export SGF format.
+ * A tree of SGFnodes store the record of the game, and can
+ * import/export SGF format.
  */
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.PushbackReader;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 
-public class SGFnode implements Serializable
-{
+public class SGFnode implements Serializable {
     public SGFnode parent;
     public Vector children;
     public Hashtable properties;
@@ -28,42 +32,39 @@ public class SGFnode implements Serializable
     }
 
     /** Constructor, given the parent node. */
-    public SGFnode (SGFnode p) {
+    public SGFnode(SGFnode p) {
         initialize(p);
     }
 
     // Helpers for constructors, since they apparently can't call each
     // other.  Bummer.
-    private void initialize () {
+    private void initialize() {
         properties = new Hashtable();
-        parent     = null;
-        children   = new Vector();
+        parent = null;
+        children = new Vector();
     }
 
-    private void initialize (SGFnode p) {
-        initialize ();
+    private void initialize(SGFnode p) {
+        initialize();
         this.set_parent(p);   // give this new node a pointer to its parent
         p.add_child(this);    // and add this child to the parent's list.
     }
 
 
-
     // Convert a GameTree into an SGF string -- the crux of SGF output!
     // This is the entry point.
 
-    public String toString()
-    {
+    public String toString() {
         StringBuffer sbuf = new StringBuffer(80);
         dump_properties(sbuf);
-       // print_tree(sbuf, this);
+        // print_tree(sbuf, this);
         return sbuf.toString();
     }
 
     // Obviously, this is a recursive depth-first search;
     // it prints every property of every node, *including* all branches.
 
-    private void print_tree(StringBuffer sbuf, SGFnode currentnode)
-    {
+    private void print_tree(StringBuffer sbuf, SGFnode currentnode) {
         Enumeration e = currentnode.children.elements();
 
         // First, if this node is the top of a gametree, print "("
@@ -96,15 +97,13 @@ public class SGFnode implements Serializable
     // Usful utility: dump all properties of a node into a StringBuffer.
     // This is used by SGFnode.toString()
 
-    public void dump_properties(StringBuffer sbuf)
-    {
+    public void dump_properties(StringBuffer sbuf) {
         Enumeration e = properties.keys();
-        if (! e.hasMoreElements())
+        if (!e.hasMoreElements())
             return;
         else
             sbuf.append(";");
-        while (e.hasMoreElements())
-        {
+        while (e.hasMoreElements()) {
             String currentKey = (String) e.nextElement();
             String currentValue = (String) get_prop(currentKey);
             sbuf.append(currentKey + "[" + currentValue + "] ");
@@ -146,27 +145,24 @@ public class SGFnode implements Serializable
 
     // The entry routine for our parser: take an SGF string and build a
     // GameTree in memory (with (*this) being the root node, of course)
-
-    public void fromString (String str) {
-        PushbackReader pushrdr = new PushbackReader (new StringReader (str));
-        parse (pushrdr, this);
+    public void fromString(String str) {
+        PushbackReader pushrdr = new PushbackReader(new StringReader(str));
+        parse(pushrdr, this);
         firsttime = true;
     }
 
 
   /* Our recursive parser! */
 
-    private void parse (PushbackReader rdr, SGFnode currentnode)
-    {
+    private void parse(PushbackReader rdr, SGFnode currentnode) {
         int ch;
         SGFnode new_node;
         try {
-            while ((ch = rdr.read()) != -1)
-            {
-                if (whitespace ((char) ch)) // skip whitespace
+            while ((ch = rdr.read()) != -1) {
+                if (whitespace((char) ch)) // skip whitespace
                     continue;
 
-                if (isUppercase ((char) ch)) {  // is it a property?
+                if (isUppercase((char) ch)) {  // is it a property?
                     rdr.unread(ch);
                     String key = get_property_name(rdr); // read whole property NAME
                     String val = get_property_value(rdr);  // read entire [value]
@@ -182,8 +178,7 @@ public class SGFnode implements Serializable
                 }
 
                 // else
-                switch (ch)
-                {
+                switch (ch) {
                     case '(':
                         currentnode.head_p = true;  // mark this node as Head of a subtree
                         continue;
@@ -195,12 +190,11 @@ public class SGFnode implements Serializable
                         if ((currentnode.parent == null) && firsttime) {
                             new_node = currentnode;
                             firsttime = false;
-                        }
-                        else
+                        } else
                             new_node = new SGFnode(currentnode);
                         parse(rdr, new_node);
                         // after recursion returns:
-                        if (! currentnode.head_p)  // keep popping up the stack
+                        if (!currentnode.head_p)  // keep popping up the stack
                             return;
                         else
                             continue;
@@ -210,55 +204,49 @@ public class SGFnode implements Serializable
                         continue;
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("SGFnode.parse(): IOException: " + e);
         }
     }
 
 
-
     // We get here because parse_node found an uppercase char and pushed
     // it back;  returns the full name of the property.
 
-    private String get_property_name (PushbackReader rdr)
-    {
+    private String get_property_name(PushbackReader rdr) {
         int ch;
         StringBuffer sbuf = new StringBuffer();
         try {
             ch = rdr.read();  // read the first uppercase char back again
-            sbuf.append((char)ch);
+            sbuf.append((char) ch);
             while ((ch = rdr.read()) != -1) // start reading chars
             {
-                if (isUppercase((char)ch)) { // and append uppercase ones
-                    sbuf.append((char)ch);
+                if (isUppercase((char) ch)) { // and append uppercase ones
+                    sbuf.append((char) ch);
                     continue;
-                }
-                else {              // until we encounter a non-uppercase!
+                } else {              // until we encounter a non-uppercase!
                     rdr.unread(ch);   // push the non-uppercase letter back
                     break;            // and stop reading
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("SGFnode.parse_property_name(): IOException: " + e);
         }
-        parse_debug("parse_property_name is returning '"+sbuf.toString()+"'");
+        parse_debug("parse_property_name is returning '" + sbuf.toString() + "'");
         return sbuf.toString();
     }
 
     // Read a entire property value in square brackets, return in a string.
     // Be sure to *preserve* any escaped characters!
 
-    private String get_property_value (PushbackReader rdr)
-    {
+    private String get_property_value(PushbackReader rdr) {
         int ch;
         StringBuffer sbuf = new StringBuffer();
         try {
 
             while ((ch = rdr.read()) != -1) // first, skip all whitespace
             {
-                if (! whitespace((char)ch)) {
+                if (!whitespace((char) ch)) {
                     rdr.unread(ch);
                     break;
                 }
@@ -275,31 +263,25 @@ public class SGFnode implements Serializable
             {
                 if (ch == ']') { // all done.  don't need to push it back, either.
                     break;
-                }
-                else if (ch == '\\') { // if we hit a single backslash
-                    sbuf.append((char)ch); // write it to our StringBuffer
+                } else if (ch == '\\') { // if we hit a single backslash
+                    sbuf.append((char) ch); // write it to our StringBuffer
                     ch = rdr.read();  // and immediately snarf the *next* character!
                 }
                 // finally, write this character to our StringBuffer
-                sbuf.append((char)ch);
+                sbuf.append((char) ch);
                 continue;
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("SGFnode.parse_property_value(): IOException: " + e);
         }
-        parse_debug("parse_property_value is returning '"+sbuf.toString()+"'");
+        parse_debug("parse_property_value is returning '" + sbuf.toString() + "'");
         return sbuf.toString();
     }
 
 
-
-
     /* Return true iff ch is whitespace.  What could be simpler? */
-    private boolean whitespace (char ch)
-    {
-        switch (ch)
-        {
+    private boolean whitespace(char ch) {
+        switch (ch) {
             case ' ':
             case '\t':
             case '\r':
@@ -311,31 +293,26 @@ public class SGFnode implements Serializable
         }
     }
 
-    private boolean isUppercase(char ch)
-    {
+    private boolean isUppercase(char ch) {
         return Character.isUpperCase(ch);
     }
 
 
-
-
-
-
-    public Object get_prop (String key) {
+    public Object get_prop(String key) {
         return properties.get(key);
     }
 
 
     // Adds a property to a node, but escapes dangerous chars in "value"
 
-    public void set_prop_safely (String key, String value) {
+    public void set_prop_safely(String key, String value) {
         char ch;
         StringBuffer sbuf = new StringBuffer();
         for (int i = 0; i < value.length(); i++) {
             ch = value.charAt(i);
             if ((ch == ']') ||
                     (ch == ':') ||
-                    (ch == '\\') ) // this is just a *single* backslash! :)
+                    (ch == '\\')) // this is just a *single* backslash! :)
             {
                 sbuf.append('\\');
             }
@@ -346,21 +323,18 @@ public class SGFnode implements Serializable
 
     // Adds a property to a node, no modification of "value"
 
-    public void set_prop_literal (String key, String value) {
+    public void set_prop_literal(String key, String value) {
         properties.put(key, value);
     }
 
 
-
-
-
     // If parent is null, we're the root node.
 
-    public void set_parent (SGFnode p) {
+    public void set_parent(SGFnode p) {
         parent = p;
     }
 
-    public SGFnode get_parent () {
+    public SGFnode get_parent() {
         return parent;
     }
 
@@ -371,16 +345,16 @@ public class SGFnode implements Serializable
     // others, they might have names, but SGFnode doesn't need to know
     // their names.  At least not the way things are right now.
 
-    public SGFnode get_child (int i) {
-        if (i > (children.size()-1)) {
-            children.setSize(i+1);
+    public SGFnode get_child(int i) {
+        if (i > (children.size() - 1)) {
+            children.setSize(i + 1);
         }
         return (SGFnode) children.elementAt(i);
     }
 
-    public void set_child (int i, SGFnode child) {
-        if (i > (children.size()-1)) {
-            children.setSize(i+1);
+    public void set_child(int i, SGFnode child) {
+        if (i > (children.size() - 1)) {
+            children.setSize(i + 1);
         }
         children.setElementAt(child, i);
     }
@@ -390,15 +364,14 @@ public class SGFnode implements Serializable
     public void add_child(SGFnode child) {
         //    children.addElement(child);
         int size = children.size();
-        children.setSize(size+1);
+        children.setSize(size + 1);
         children.setElementAt(child, size);
     }
 
     // Debugging utility to examine the parser's recursion!
     // To turn off debugging, just comment-out this function's one line.
 
-    private void parse_debug(String str)
-    {
+    private void parse_debug(String str) {
         // System.err.println("Parser: " + str);
     }
 
@@ -434,11 +407,7 @@ public class SGFnode implements Serializable
 */
 
 
-
-
 }
-
-
 
 
 //////////////////////////////////////////////////////////

@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.google.inject.Inject;
-import com.quaigon.kamil.pojo.AccessToken;
 import com.quaigon.kamil.connection.AuthenticationRepository;
 import com.quaigon.kamil.connection.ConnectionService;
-import com.quaigon.kamil.pojo.Game;
 import com.quaigon.kamil.connection.OAuthServiceGenrator;
 import com.quaigon.kamil.goban.GobanActivity;
 import com.quaigon.kamil.goban.R;
+import com.quaigon.kamil.pojo.AccessToken;
+import com.quaigon.kamil.pojo.Game;
 import com.quaigon.kamil.pojo.Games;
 
 import java.util.List;

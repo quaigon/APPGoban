@@ -71,24 +71,17 @@ public class GameAdapter extends BaseAdapter {
     }
 
 
-
-
-
-
     static class ViewHolder {
         private TextView gameIdTextView;
         private TextView gamePlayersTextView;
 
-        public ViewHolder (View convertView) {
+        public ViewHolder(View convertView) {
             gameIdTextView = (TextView) convertView.findViewById(R.id.gameId);
             gamePlayersTextView = (TextView) convertView.findViewById(R.id.players);
         }
 
 
-
     }
-
-
 
 
 }

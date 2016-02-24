@@ -174,10 +174,10 @@ public class GroupManager {
                     if (i == field1.getX() && j == field1.getY()) continue Outer;
                 }
 
-                    if (null != group) {
-                        addLiberties(i, j);
-                        if (0 >= group.getLibertiesCount()) {
-                            deleteGroup(i, j);
+                if (null != group) {
+                    addLiberties(i, j);
+                    if (0 >= group.getLibertiesCount()) {
+                        deleteGroup(i, j);
 
                     }
                 }

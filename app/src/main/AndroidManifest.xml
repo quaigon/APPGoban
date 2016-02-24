@@ -10,6 +10,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name="com.quaigon.kamil.GobanApplication"
         android:theme="@style/AppTheme">
         <activity
             android:name=".GobanActivity"
@@ -27,6 +28,8 @@
 
         <meta-data android:name="roboguice.modules"
             android:value=" com.quaigon.kamil.configuration.MainModule"/>
+        <meta-data android:name="roboguice.annotations.packages"
+            android:value="com.quaigon.kamil.goban" />
     </application>
 
 </manifest>

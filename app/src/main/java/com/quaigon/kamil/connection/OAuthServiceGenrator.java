@@ -29,27 +29,26 @@ public class OAuthServiceGenrator {
 
     public static <S> S createService(Class<S> serviceClass) {
 
-            httpClient.addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request original = chain.request();
+        httpClient.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request original = chain.request();
 
-                    Request.Builder requestBuilder = original.newBuilder()
-                            .header("Accept", "application/json")
-                            .method(original.method(),original.body());
+                Request.Builder requestBuilder = original.newBuilder()
+                        .header("Accept", "application/json")
+                        .method(original.method(), original.body());
 
-                    Request request = requestBuilder.build();
-                    return  chain.proceed(request);
-                }
-            });
+                Request request = requestBuilder.build();
+                return chain.proceed(request);
+            }
+        });
         OkHttpClient client = httpClient.build();
         Retrofit retrofit = retroBuilder.client(client).build();
         return retrofit.create(serviceClass);
     }
 
 
-
-    public static <S> S createService(Class<S> serviceClass, final AccessToken token, final String acceptHeader ) {
+    public static <S> S createService(Class<S> serviceClass, final AccessToken token, final String acceptHeader) {
         if (token != null) {
             httpClient.addInterceptor(new Interceptor() {
                 @Override
@@ -71,8 +70,6 @@ public class OAuthServiceGenrator {
         Retrofit retrofit = retroBuilder.client(client).build();
         return retrofit.create(serviceClass);
     }
-
-
 
 
 }

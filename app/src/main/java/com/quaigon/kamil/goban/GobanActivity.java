@@ -88,12 +88,12 @@ public class GobanActivity extends RoboActionBarActivity {
             public void onClick(View v) {
                 buttonPrev.setEnabled(true);
                 Goban goban = gameManager.getNextState();
-                if (goban == null){
+                if (goban == null) {
                     buttonNext.setEnabled(false);
                     return;
                 }
-                    gobanView.setGobanModel(goban);
-                    refreshView();
+                gobanView.setGobanModel(goban);
+                refreshView();
 
 
             }

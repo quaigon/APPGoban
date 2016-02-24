@@ -38,7 +38,7 @@ public class GobanView extends View {
         init();
     }
 
-    public void init () {
+    public void init() {
         this.dm = new DisplayMetrics();
         this.paint = new Paint();
     }
@@ -50,7 +50,7 @@ public class GobanView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension( widthMeasureSpec, widthMeasureSpec )        ;
+        setMeasuredDimension(widthMeasureSpec, widthMeasureSpec);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class GobanView extends View {
 
         paint.getStrokeWidth();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.parseColor( "#ffb732" ));
+        paint.setColor(Color.parseColor("#ffb732"));
         canvas.drawPaint(paint);
 
         paint.setStrokeWidth(0);
@@ -80,33 +80,33 @@ public class GobanView extends View {
 
 
         for (int i = 0; i < 19; i++) {
-            canvas.drawLine( (1 + i )* squareWidth, squareHeight,(1 + i )* squareWidth , 19 * squareHeight, paint);
+            canvas.drawLine((1 + i) * squareWidth, squareHeight, (1 + i) * squareWidth, 19 * squareHeight, paint);
         }
 
         if (gobanModel != null) {
 
-        List<Field> fields = gobanModel.getNonEmptyFields();
+            List<Field> fields = gobanModel.getNonEmptyFields();
 
 
-        if (radius % 2 != 0) {
-            radius = radius -1;
-        }
-        for (Field field : fields) {
-            int x = field.getX() - 1;
-            int y = field.getY() - 1;
-
-            if (field.getStone().getColor() == 0) {
-                paint.setColor(Color.WHITE);
-            } else {
-                paint.setColor(Color.BLACK);
+            if (radius % 2 != 0) {
+                radius = radius - 1;
             }
+            for (Field field : fields) {
+                int x = field.getX() - 1;
+                int y = field.getY() - 1;
 
-            float newx = squareWidth + x * (squareWidth);
-            float newy = squareWidth + y * (squareHeight);
+                if (field.getStone().getColor() == 0) {
+                    paint.setColor(Color.WHITE);
+                } else {
+                    paint.setColor(Color.BLACK);
+                }
 
-            canvas.drawCircle(newx, newy, radius, paint);
+                float newx = squareWidth + x * (squareWidth);
+                float newy = squareWidth + y * (squareHeight);
 
-        }
+                canvas.drawCircle(newx, newy, radius, paint);
+
+            }
 
         }
     }
@@ -117,7 +117,7 @@ public class GobanView extends View {
         float x = event.getX();
         float y = event.getY();
 
-        Log.d("Goban", " x: "+x + "y: "+y);
+        Log.d("Goban", " x: " + x + "y: " + y);
         return super.onTouchEvent(event);
     }
 }

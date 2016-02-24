@@ -1,13 +1,10 @@
 package com.quaigon.kamil.sgfparser;
 
 
-import android.net.Uri;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
 
 public class FileSGFProvider implements SGFProvider {
 
@@ -19,10 +16,9 @@ public class FileSGFProvider implements SGFProvider {
     }
 
 
-
     @Override
     public String getLines() {
-        try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 

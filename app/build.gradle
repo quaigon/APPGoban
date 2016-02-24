@@ -23,6 +23,7 @@ android {
         release {
             minifyEnabled true
             proguardFile 'proguard.cfg'
+            signingConfig signingConfigs.config
         }
         debug {
             signingConfig signingConfigs.config
@@ -30,11 +31,9 @@ android {
     }
     productFlavors {
         production {
-
+            signingConfig signingConfigs.config
         }
-
         dev {
-
         }
     }
 }
@@ -47,4 +46,8 @@ dependencies {
     compile 'com.android.support:design:22.2.1'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+}
+
+project.tasks.withType(JavaCompile) { task ->
+    options.compilerArgs << "-AguiceAnnotationDatabasePackageName=com.quaigon.kamil.goban"
 }

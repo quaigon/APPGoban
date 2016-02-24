@@ -16,8 +16,6 @@ public class GameManager {
     }
 
 
-
-
     private void init(SGFProvider provider) {
         this.gameStates = new ArrayList<>();
         SGFnode node = new SGFnode();
@@ -41,8 +39,8 @@ public class GameManager {
 
     public Goban getPreviousState() {
         this.walker.getPreviousMove();
-        gameStates.remove(gameStates.size()-1);
-        Goban goban = gameStates.get(gameStates.size()-1);
+        gameStates.remove(gameStates.size() - 1);
+        Goban goban = gameStates.get(gameStates.size() - 1);
         return goban;
     }
 
