@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.quaigon.kamil.goban.GobanView
+    <com.quaigon.kamil.goban.view.GobanView
         android:id="@+id/goban_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -38,5 +38,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:text="next" />
-</LinearLayout>
+    </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/android:messagesList">
+
+        </ListView>
+
+
 </LinearLayout>

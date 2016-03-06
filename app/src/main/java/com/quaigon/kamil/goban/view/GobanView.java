@@ -1,4 +1,4 @@
-package com.quaigon.kamil.goban;
+package com.quaigon.kamil.goban.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.quaigon.kamil.goban.Field;
+import com.quaigon.kamil.goban.Goban;
 
 import java.util.List;
 

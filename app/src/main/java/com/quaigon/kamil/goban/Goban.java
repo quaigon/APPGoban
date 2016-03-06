@@ -106,8 +106,6 @@ public class Goban implements GroupManagerListener {
 
     public void addSGFMove(String cords) {
         Ln.d(cords);
-        cords = cords.substring(Math.max(cords.length() - 7, 0));
-        Ln.d(cords);
         char color = cords.charAt(0);
         char x = cords.charAt(2);
         char y = cords.charAt(3);

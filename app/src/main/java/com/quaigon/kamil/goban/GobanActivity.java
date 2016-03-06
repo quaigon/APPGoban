@@ -1,20 +1,25 @@
 package com.quaigon.kamil.goban;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.quaigon.kamil.goban.view.GobanView;
 import com.quaigon.kamil.sgfparser.FileSGFProvider;
 import com.quaigon.kamil.sgfparser.StringSGFProvider;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
+import roboguice.adapter.IterableAdapter;
 import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
+import roboguice.util.Ln;
 
 public class GobanActivity extends RoboActionBarActivity {
 
@@ -44,7 +49,11 @@ public class GobanActivity extends RoboActionBarActivity {
     @InjectExtra(value = "sgfPath", optional = true)
     private String sgfPath;
 
+    private HashSet<String> messagesList;
+    private IterableAdapter<String> messageAdapter;
 
+    @InjectView(R.id.android_messagesList)
+    private ListView messagesListView;
 
     private void loadURI(String uri) {
         File file = new File(uri);
@@ -54,7 +63,6 @@ public class GobanActivity extends RoboActionBarActivity {
         gobanView.setGobanModel(goban);
         gobanView.invalidate();
         buttonNext.setEnabled(true);
-        buttonPrev.setEnabled(false);
     }
 
     private void refreshView() {
@@ -62,6 +70,8 @@ public class GobanActivity extends RoboActionBarActivity {
         if (gameManager != null) {
             moveNoView.setText(String.valueOf(gameManager.getMoveNo()));
         }
+        this.messageAdapter = new IterableAdapter<>(this, android.R.layout.simple_list_item_1,messagesList);
+        this.messagesListView.setAdapter(this.messageAdapter);
     }
 
     private void loadSgf(String sgf) {
@@ -71,7 +81,6 @@ public class GobanActivity extends RoboActionBarActivity {
         gobanView.setGobanModel(goban);
         gobanView.invalidate();
         buttonNext.setEnabled(true);
-        buttonPrev.setEnabled(true);
     }
 
 
@@ -81,17 +90,19 @@ public class GobanActivity extends RoboActionBarActivity {
         setContentView(R.layout.goban_view_layout);
 
         if (this.sgfPath != null) loadURI(sgfPath);
-
         buttonNext.setEnabled(false);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonPrev.setEnabled(true);
-                Goban goban = gameManager.getNextState();
+                StateContainer stateContainer = gameManager.getNextState();
+                goban = stateContainer.getGoban();
                 if (goban == null) {
                     buttonNext.setEnabled(false);
                     return;
                 }
+                if (stateContainer.getComment() != null) messagesList.add(stateContainer.getComment());
+                Ln.d(stateContainer.getComment());
                 gobanView.setGobanModel(goban);
                 refreshView();
 
@@ -115,11 +126,12 @@ public class GobanActivity extends RoboActionBarActivity {
             }
         });
 
-
+        this.messagesList = new HashSet<>();
 
         loadSgf(this.gameSgf);
         gobanView.setGobanModel(goban);
         refreshView();
     }
+
 
 }

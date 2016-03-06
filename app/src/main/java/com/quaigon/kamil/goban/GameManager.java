@@ -6,6 +6,10 @@ import com.quaigon.kamil.sgfparser.Treewalker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+import roboguice.util.Ln;
 
 public class GameManager {
     private List<Goban> gameStates;
@@ -25,17 +29,25 @@ public class GameManager {
     }
 
 
-    public Goban getNextState() {
+    public StateContainer getNextState() {
         Goban goban = new Goban(getLastState());
+        String comment = null;
         if (this.walker.getNextMove() == null) {
             return null;
         }
+        String current = walker.printCurrent();
 
-        goban.addSGFMove(walker.printCurrent());
+        Pattern move = Pattern.compile("[WB]\\[\\w\\w\\]");
+        Matcher matcher = move.matcher(current);
+        if (matcher.find()) goban.addSGFMove(matcher.group());
+        Pattern commentPattern = Pattern.compile("C\\[([\\u0000-\\u00FF]+)\\]");
+        matcher = commentPattern.matcher(current);
+        if (matcher.find()) comment = matcher.group(1
+        );
+
         this.gameStates.add(goban);
-        return goban;
+        return new StateContainer(goban, comment);
     }
-
 
     public Goban getPreviousState() {
         this.walker.getPreviousMove();
