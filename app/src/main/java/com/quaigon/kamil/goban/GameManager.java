@@ -42,8 +42,7 @@ public class GameManager {
         if (matcher.find()) goban.addSGFMove(matcher.group());
         Pattern commentPattern = Pattern.compile("C\\[([\\u0000-\\u00FF]+)\\]");
         matcher = commentPattern.matcher(current);
-        if (matcher.find()) comment = matcher.group(1
-        );
+        if (matcher.find()) comment = matcher.group(1);
 
         this.gameStates.add(goban);
         return new StateContainer(goban, comment);

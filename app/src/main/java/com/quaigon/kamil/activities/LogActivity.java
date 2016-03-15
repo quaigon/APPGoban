@@ -3,6 +3,7 @@ package com.quaigon.kamil.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import com.google.inject.Inject;
 import com.quaigon.kamil.connection.AuthenticationRepository;
 import com.quaigon.kamil.connection.ConnectionService;
 import com.quaigon.kamil.connection.OAuthServiceGenrator;
+import com.quaigon.kamil.goban.GobanActivity;
 import com.quaigon.kamil.goban.R;
 import com.quaigon.kamil.pojo.AccessToken;
 
@@ -25,6 +27,9 @@ public class LogActivity extends RoboActionBarActivity {
 
     @InjectView(R.id.signInButton)
     private Button signInButton;
+
+    @InjectView(R.id.loadGame)
+    private Button loadGameButton;
 
     @InjectView(R.id.usernameEditText)
     private EditText usernameEditText;
@@ -59,10 +64,28 @@ public class LogActivity extends RoboActionBarActivity {
             }
         });
 
+        this.loadGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setType("file/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Wybierz SGF"), 1000);
+                Intent intent = new Intent(LogActivity.this, GobanActivity.class);
+                startActivity(intent);
+            }
+        });
         usernameEditText.setText(resources.getString(R.string.username));
         passwordEditText.setText(resources.getString(R.string.password));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Uri uri = data.getData();
+        Intent intent = new Intent(LogActivity.this, GobanActivity.class);
+        intent.putExtra("sgfPath", uri.getPath());
+        startActivity(intent);
+    }
 
     public class GetTokenAsyncTask extends RoboAsyncTask<Void> {
 

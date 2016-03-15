@@ -33,6 +33,10 @@ public class Goban implements GroupManagerListener {
         }
     }
 
+    public boolean isEmpty (int x, int y) {
+        return fields[x][y].isEmpty();
+    }
+
     public void copyGoban(Goban goban) {
         initBoard();
         for (Field field : goban.getNonEmptyFields()) {
@@ -47,9 +51,11 @@ public class Goban implements GroupManagerListener {
     }
 
     public void putStone(int x, int y, int color) {
-        Ln.w(String.format("Put stone: %d, %d [%s]", x, y, color == 0 ? 'W' : 'B'));
-        fields[x][y].setStone(new Stone(color));
-        groupManager.addGroup(fields[x][y]);
+//        Ln.w(String.format("Put stone: %d, %d [%s]", x, y, color == 0 ? 'W' : 'B'));
+        if (fields[x][y].isEmpty()) {
+            fields[x][y].setStone(new Stone(color));
+            groupManager.addGroup(fields[x][y]);
+        }
 
     }
 
@@ -118,6 +124,8 @@ public class Goban implements GroupManagerListener {
                 break;
         }
     }
+
+
 
     @Override
     public void onGroupRemoved(HashSet<Field> fields) {

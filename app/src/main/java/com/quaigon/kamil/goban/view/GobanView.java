@@ -1,6 +1,5 @@
 package com.quaigon.kamil.goban.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,15 +12,20 @@ import android.view.View;
 
 import com.quaigon.kamil.goban.Field;
 import com.quaigon.kamil.goban.Goban;
+import com.quaigon.kamil.goban.PositionCalculator;
 
 import java.util.List;
 
+import roboguice.util.Ln;
+
 
 public class GobanView extends View {
+    boolean isBlack = true;
     private Context context;
     private Goban gobanModel;
     private DisplayMetrics dm;
     private Paint paint;
+    private PositionCalculator positionCalculator;
 
     public GobanView(Context context) {
         super(context);
@@ -60,20 +64,17 @@ public class GobanView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
-
         paint.getStrokeWidth();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.parseColor("#ffb732"));
         canvas.drawPaint(paint);
-
         paint.setStrokeWidth(0);
+        this.positionCalculator = new PositionCalculator(getWidth());
         float screenWidth = getWidth();
         float squareWidth = screenWidth / 20 + paint.getStrokeWidth();
         float radius = squareWidth / 2;
         squareWidth = Math.round(squareWidth);
         float squareHeight = squareWidth;
-
 
         paint.setColor(Color.BLACK);
 
@@ -87,9 +88,7 @@ public class GobanView extends View {
         }
 
         if (gobanModel != null) {
-
             List<Field> fields = gobanModel.getNonEmptyFields();
-
 
             if (radius % 2 != 0) {
                 radius = radius - 1;
@@ -104,23 +103,46 @@ public class GobanView extends View {
                     paint.setColor(Color.BLACK);
                 }
 
-                float newx = squareWidth + x * (squareWidth);
-                float newy = squareWidth + y * (squareHeight);
-
-                canvas.drawCircle(newx, newy, radius, paint);
-
+                canvas.drawCircle(positionCalculator.xToPixel(x), positionCalculator.yToPixel(y), radius, paint);
             }
-
         }
     }
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+
+
         float x = event.getX();
         float y = event.getY();
 
-        Log.d("Goban", " x: " + x + "y: " + y);
+        Ln.d( "ACTION: " + event.getActionMasked());
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            int newx = positionCalculator.fromPixelToX(x);
+            int newy = positionCalculator.fromPixelToX(y);
+
+            if (isBlack) {
+                Goban nextState = new Goban(gobanModel);
+                nextState.putStone(newx, newy, 1);
+                if (!nextState.isEmpty(newx, newy)) {
+                    isBlack = false;
+                    gobanModel = nextState;
+                    invalidate();
+                }
+            } else {
+                Goban nextState = new Goban(gobanModel);
+                nextState.putStone(newx, newy, 0);
+                if (!nextState.isEmpty(newx, newy)) {
+                    gobanModel = nextState;
+                    isBlack = true;
+                    invalidate();
+                }
+            }
+        }
+
         return super.onTouchEvent(event);
     }
+
+
 }
