@@ -1,4 +1,4 @@
-package com.quaigon.kamil.pojo;
+package com.quaigon.kamil.dto;
 
 
 public class Game {

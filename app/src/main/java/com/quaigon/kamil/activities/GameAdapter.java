@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.quaigon.kamil.goban.R;
-import com.quaigon.kamil.pojo.Game;
-import com.quaigon.kamil.pojo.Player;
-import com.quaigon.kamil.pojo.Players;
+import com.quaigon.kamil.dto.Game;
+import com.quaigon.kamil.dto.Player;
+import com.quaigon.kamil.dto.Players;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.quaigon.kamil.goban.GobanActivity;
 import com.quaigon.kamil.goban.R;
-import com.quaigon.kamil.pojo.AccessToken;
+import com.quaigon.kamil.dto.AccessToken;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;

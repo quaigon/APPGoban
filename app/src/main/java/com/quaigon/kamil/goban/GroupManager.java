@@ -68,9 +68,7 @@ public class GroupManager {
         for (Group g : neighbors) {
             mergeGroups(getGroup(x, y), g);
         }
-
         validateLiberties(field);
-
     }
 
 

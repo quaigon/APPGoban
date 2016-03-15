@@ -13,6 +13,7 @@ import android.view.View;
 import com.quaigon.kamil.goban.Field;
 import com.quaigon.kamil.goban.Goban;
 import com.quaigon.kamil.goban.PositionCalculator;
+import com.quaigon.kamil.goban.TouchListener;
 
 import java.util.List;
 
@@ -20,12 +21,21 @@ import roboguice.util.Ln;
 
 
 public class GobanView extends View {
+
+
     boolean isBlack = true;
+
     private Context context;
     private Goban gobanModel;
     private DisplayMetrics dm;
     private Paint paint;
     private PositionCalculator positionCalculator;
+
+    public void setTouchListener(TouchListener touchListener) {
+        this.touchListener = touchListener;
+    }
+
+    private TouchListener touchListener;
 
     public GobanView(Context context) {
         super(context);
@@ -43,6 +53,18 @@ public class GobanView extends View {
         super(context, attrs, defStyleAttr);
         this.context = context;
         init();
+    }
+
+    public void setIsBlack(boolean isBlack) {
+        this.isBlack = isBlack;
+    }
+
+    public boolean isBlack() {
+        return isBlack;
+    }
+
+    public PositionCalculator getPositionCalculator() {
+        return positionCalculator;
     }
 
     public void init() {
@@ -102,7 +124,6 @@ public class GobanView extends View {
                 } else {
                     paint.setColor(Color.BLACK);
                 }
-
                 canvas.drawCircle(positionCalculator.xToPixel(x), positionCalculator.yToPixel(y), radius, paint);
             }
         }
@@ -111,35 +132,12 @@ public class GobanView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-
-
         float x = event.getX();
         float y = event.getY();
 
-        Ln.d( "ACTION: " + event.getActionMasked());
-        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            int newx = positionCalculator.fromPixelToX(x);
-            int newy = positionCalculator.fromPixelToX(y);
-
-            if (isBlack) {
-                Goban nextState = new Goban(gobanModel);
-                nextState.putStone(newx, newy, 1);
-                if (!nextState.isEmpty(newx, newy)) {
-                    isBlack = false;
-                    gobanModel = nextState;
-                    invalidate();
-                }
-            } else {
-                Goban nextState = new Goban(gobanModel);
-                nextState.putStone(newx, newy, 0);
-                if (!nextState.isEmpty(newx, newy)) {
-                    gobanModel = nextState;
-                    isBlack = true;
-                    invalidate();
-                }
-            }
-        }
+        int newx = positionCalculator.fromPixelToX(x);
+        int newy = positionCalculator.fromPixelToX(y);
+        this.touchListener.onPositionGet(newx, newy);
 
         return super.onTouchEvent(event);
     }

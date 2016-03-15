@@ -1,7 +1,7 @@
 package com.quaigon.kamil.connection;
 
-import com.quaigon.kamil.pojo.AccessToken;
-import com.quaigon.kamil.pojo.Games;
+import com.quaigon.kamil.dto.AccessToken;
+import com.quaigon.kamil.dto.Games;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

@@ -15,7 +15,7 @@ import com.quaigon.kamil.connection.ConnectionService;
 import com.quaigon.kamil.connection.OAuthServiceGenrator;
 import com.quaigon.kamil.goban.GobanActivity;
 import com.quaigon.kamil.goban.R;
-import com.quaigon.kamil.pojo.AccessToken;
+import com.quaigon.kamil.dto.AccessToken;
 
 import retrofit2.Call;
 import roboguice.activity.RoboActionBarActivity;

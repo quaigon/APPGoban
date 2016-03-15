@@ -137,9 +137,4 @@ public class Goban implements GroupManagerListener {
         }
         Log.w("Goban", message.toString());
     }
-
-    @Override
-    public void onGroupAdded(List<Field> fields) {
-
-    }
 }
