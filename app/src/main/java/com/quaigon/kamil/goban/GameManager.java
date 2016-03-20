@@ -89,12 +89,12 @@ public class GameManager implements TouchListener {
     public void onPositionGet(int x, int y) {
         Goban goban = new Goban(getLast());
         goban.printStones();
-        Ln.d("x:" + x + " y:" + y);
-        Ln.d(goban.isEmpty(x, y));
+//        Ln.d("x:" + x + " y:" + y);
+//        Ln.d(goban.isEmpty(x, y));
         int color = gameStates.size() % 2 == 0 ? 1 : 0;
         goban.putStone(x, y, color);
-        goban.printStones();
-        Ln.d(goban.isEmpty(x, y));
+//        goban.printStones();
+//        Ln.d(goban.isEmpty(x, y));
         if (!goban.isEmpty(x, y)) {
             gameStates.add(goban);
             gobanView.setGobanModel(goban);
