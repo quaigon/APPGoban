@@ -54,9 +54,11 @@ public class MenuActivity extends RoboActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Uri uri = data.getData();
-        Intent intent = new Intent(MenuActivity.this, GobanActivity.class);
-        intent.putExtra("sgfPath", uri.getPath());
-        startActivity(intent);
+        if (null != data) {
+            Uri uri = data.getData();
+            Intent intent = new Intent(MenuActivity.this, GobanActivity.class);
+            intent.putExtra("sgfPath", uri.getPath());
+            startActivity(intent);
+        }
     }
 }

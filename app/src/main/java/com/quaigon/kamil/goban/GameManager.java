@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import roboguice.util.Ln;
-
 public class GameManager implements TouchListener {
     private List<Goban> gameStates;
     private Treewalker walker;

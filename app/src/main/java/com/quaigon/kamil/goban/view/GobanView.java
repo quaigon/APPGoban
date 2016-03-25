@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -16,8 +15,6 @@ import com.quaigon.kamil.goban.PositionCalculator;
 import com.quaigon.kamil.goban.TouchListener;
 
 import java.util.List;
-
-import roboguice.util.Ln;
 
 
 public class GobanView extends View {
@@ -137,7 +134,7 @@ public class GobanView extends View {
 
         int newx = positionCalculator.fromPixelToX(x);
         int newy = positionCalculator.fromPixelToX(y);
-        this.touchListener.onPositionGet(newx, newy);
+        touchListener.onPositionGet(newx, newy);
 
         return super.onTouchEvent(event);
     }

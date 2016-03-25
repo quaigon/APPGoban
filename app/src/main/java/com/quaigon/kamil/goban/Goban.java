@@ -2,6 +2,8 @@ package com.quaigon.kamil.goban;
 
 import android.util.Log;
 
+import com.quaigon.kamil.goban.gametree.Move;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,6 +39,10 @@ public class Goban implements GroupManagerListener {
         return fields[x][y].isEmpty();
     }
 
+    public boolean isEmpty (Move move) {
+        return isEmpty(move.getX(), move.getY());
+    }
+
     public void copyGoban(Goban goban) {
         initBoard();
         for (Field field : goban.getNonEmptyFields()) {
@@ -51,13 +57,22 @@ public class Goban implements GroupManagerListener {
     }
 
     public void putStone(int x, int y, int color) {
-//        Ln.w(String.format("Put stone: %d, %d [%s]", x, y, color == 0 ? 'W' : 'B'));
         if (fields[x][y].isEmpty()) {
             fields[x][y].setStone(new Stone(color));
             groupManager.addGroup(fields[x][y]);
         }
-
     }
+
+    public void putStone (Move move) {
+        int x = move.getX();
+        int y = move.getY();
+        int color = move.getColor();
+        if (fields[x][y].isEmpty()) {
+            fields[x][y].setStone(new Stone(color));
+            groupManager.addGroup(fields[x][y]);
+        }
+    }
+
 
     public List<Field> getNonEmptyFields() {
         List<Field> nonEmptyFields = new ArrayList<>();

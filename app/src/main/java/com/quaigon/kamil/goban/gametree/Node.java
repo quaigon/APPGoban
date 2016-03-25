@@ -10,6 +10,7 @@ public class Node {
     private HashMap info;
     private Move move;
 
+
     public Node (Node parent, Move move) {
         this.parent = parent;
         this.move = move;
@@ -21,8 +22,8 @@ public class Node {
         return null == parent;
     }
 
-    public boolean hasChildren() {
-        return this.nodes.size() == 0;
+    public boolean hasChild() {
+        return this.nodes.size() != 0;
     }
 
     public Node getNode (int i) {
@@ -43,5 +44,9 @@ public class Node {
 
     public Node getParent() {
         return parent;
+    }
+
+    public String getCommet() {
+        return (String) info.get("comment");
     }
 }

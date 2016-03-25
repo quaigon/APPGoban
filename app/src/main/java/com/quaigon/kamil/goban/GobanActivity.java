@@ -1,30 +1,31 @@
 package com.quaigon.kamil.goban;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.quaigon.kamil.goban.gametree.GameTreeManager;
+import com.quaigon.kamil.goban.gametree.GameTreeManagerImpl;
+import com.quaigon.kamil.goban.gametree.SGFGameTreeGenerator;
 import com.quaigon.kamil.goban.view.GobanView;
 import com.quaigon.kamil.sgfparser.FileSGFProvider;
+import com.quaigon.kamil.sgfparser.SGFProvider;
 import com.quaigon.kamil.sgfparser.StringSGFProvider;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.adapter.IterableAdapter;
 import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
-import roboguice.util.Ln;
 
 public class GobanActivity extends RoboActionBarActivity {
 
-//    @InjectExtra(value = "sgf", optional = true)
+    private static final int FILE_SELECT_CODE = 10;
+    //    @InjectExtra(value = "sgf", optional = true)
 //    private String gameSgf = "(;DT[2010-10-13]EV[15th Samsung Cup]\n" +
 //            "PB[Choi Cheolhan]BR[9p]PW[Park Jungwhan]WR[8p]\n" +
 //            "KM[6.5]RE[W+R]SO[Go4Go.net]\n" +
@@ -32,9 +33,9 @@ public class GobanActivity extends RoboActionBarActivity {
     @InjectExtra(value = "sgf", optional = true)
     private String gameSgf = null;
 
-    private static final int FILE_SELECT_CODE = 10;
-    private Goban goban;
-    private GameManager gameManager;
+    private GobanInterface gobanInterface;
+
+    private CommentaryInterface commentaryInterface;
 
     @InjectView(R.id.moveNo)
     private TextView moveNoView;
@@ -59,76 +60,67 @@ public class GobanActivity extends RoboActionBarActivity {
 
     private void loadURI(String uri) {
         File file = new File(uri);
-        FileSGFProvider provider = new FileSGFProvider(file);
-        this.gameManager = new GameManager(provider);
-        goban = new Goban();
-        gobanView.setGobanModel(goban);
-        gobanView.invalidate();
+        initGobanInterface(new FileSGFProvider(file));
         buttonNext.setEnabled(true);
-    }
-
-    private void refreshView() {
-        gobanView.invalidate();
-        if (gameManager != null) {
-            moveNoView.setText(String.valueOf(gameManager.getMoveNo()));
-        }
-        this.messageAdapter = new IterableAdapter<>(this, android.R.layout.simple_list_item_1,messagesList);
-        this.messagesListView.setAdapter(this.messageAdapter);
     }
 
     private void loadSgf(String sgf) {
-        StringSGFProvider provider = new StringSGFProvider(sgf);
-        this.gameManager = new GameManager(provider);
-        goban = new Goban();
-        gobanView.setGobanModel(goban);
-        gobanView.invalidate();
+        initGobanInterface(new StringSGFProvider(sgf));
         buttonNext.setEnabled(true);
     }
 
+    private void initGobanInterface(SGFProvider sgfProvider) {
+        SGFGameTreeGenerator sgfGameTreeGenerator = new SGFGameTreeGenerator(sgfProvider);
+        GameTreeManagerImpl gameTreeManagerImpl = new GameTreeManagerImpl(sgfGameTreeGenerator.getTree());
+        GobanInterfaceImpl gobanInterfaceImpl = new GobanInterfaceImpl(gameTreeManagerImpl, gobanView, moveNoView);
+        this.gobanInterface = gobanInterfaceImpl;
+        this.commentaryInterface = gameTreeManagerImpl;
+    }
+
+    private int getMoveNo() {
+        return Integer.parseInt(moveNoView.getText().toString());
+    }
+
+    private void refreshCommentariesView() {
+        this.messageAdapter = new IterableAdapter<>(this, android.R.layout.simple_list_item_1, messagesList);
+        this.messagesListView.setAdapter(this.messageAdapter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.goban_view_layout);
 
-
-
         if (this.sgfPath != null) loadURI(sgfPath);
+
         buttonNext.setEnabled(false);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonPrev.setEnabled(true);
-                StateContainer stateContainer = gameManager.getNextState();
-                goban = stateContainer.getGoban();
-                if (goban == null) {
-                    buttonNext.setEnabled(false);
-                    return;
+                if (commentaryInterface.getComment() != null) {
+                    messagesList.add(commentaryInterface.getComment());
+                    refreshCommentariesView();
                 }
-                if (stateContainer.getComment() != null)
-                    messagesList.add(stateContainer.getComment());
-                Ln.d(stateContainer.getComment());
-                gobanView.setGobanModel(goban);
-                refreshView();
+                gobanInterface.nextState();
             }
         });
-
 
         buttonPrev.setEnabled(false);
         buttonPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonNext.setEnabled(true);
-                if (gameManager.getMoveNo() == 0) {
+                gobanInterface.prevState();
+                if (getMoveNo() == 0) {
                     buttonPrev.setEnabled(false);
-                    return;
                 }
-                Goban goban = gameManager.getPreviousState();
-                gobanView.setGobanModel(goban);
-                refreshView();
+                if (commentaryInterface.getComment() != null) {
+                    messagesList.remove(commentaryInterface.getComment());
+                    refreshCommentariesView();
+                }
             }
         });
-
 
         this.messagesList = new HashSet<>();
 
@@ -137,13 +129,9 @@ public class GobanActivity extends RoboActionBarActivity {
         } else if (gameSgf != null) {
             loadSgf(this.gameSgf);
         } else {
-            gameManager = new GameManager(gobanView);
-            gobanView.setTouchListener(gameManager);
-            gobanView.setGobanModel(goban);
+            GobanInterfaceImpl gobanInterfaceImpl = new GobanInterfaceImpl(new GameTreeManagerImpl(), gobanView, moveNoView);
+            gobanInterface = gobanInterfaceImpl;
+            gobanView.setTouchListener(gobanInterfaceImpl);
         }
-
-        refreshView();
     }
-
-
 }
