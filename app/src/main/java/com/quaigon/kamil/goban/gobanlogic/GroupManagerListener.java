@@ -1,7 +1,6 @@
-package com.quaigon.kamil.goban;
+package com.quaigon.kamil.goban.gobanlogic;
 
 import java.util.HashSet;
-import java.util.List;
 
 public interface GroupManagerListener {
     void onGroupRemoved(HashSet<Field> fields);

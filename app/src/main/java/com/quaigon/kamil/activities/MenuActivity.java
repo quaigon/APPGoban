@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.quaigon.kamil.goban.GobanActivity;
+import com.quaigon.kamil.goban.view.GobanActivity;
 import com.quaigon.kamil.goban.R;
 import com.quaigon.kamil.dto.AccessToken;
 

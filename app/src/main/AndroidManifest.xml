@@ -13,7 +13,7 @@
         android:name="com.quaigon.kamil.GobanApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GobanActivity"
+            android:name=".view.GobanActivity"
             android:label="@string/app_name" />
         <activity android:name="com.quaigon.kamil.activities.LogActivity">
             <intent-filter>

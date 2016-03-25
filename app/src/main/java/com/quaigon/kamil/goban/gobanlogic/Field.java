@@ -1,4 +1,4 @@
-package com.quaigon.kamil.goban;
+package com.quaigon.kamil.goban.gobanlogic;
 
 public class Field {
     private int x;

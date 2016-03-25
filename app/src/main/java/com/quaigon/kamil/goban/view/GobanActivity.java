@@ -1,4 +1,4 @@
-package com.quaigon.kamil.goban;
+package com.quaigon.kamil.goban.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,9 +6,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.quaigon.kamil.goban.gametree.GameTreeManager;
+import com.quaigon.kamil.goban.R;
 import com.quaigon.kamil.goban.gametree.GameTreeManagerImpl;
 import com.quaigon.kamil.goban.gametree.SGFGameTreeGenerator;
+import com.quaigon.kamil.goban.gobaninterface.CommentaryInterface;
+import com.quaigon.kamil.goban.gobaninterface.GobanInterface;
+import com.quaigon.kamil.goban.gobaninterface.GobanInterfaceImpl;
 import com.quaigon.kamil.goban.view.GobanView;
 import com.quaigon.kamil.sgfparser.FileSGFProvider;
 import com.quaigon.kamil.sgfparser.SGFProvider;

@@ -1,7 +1,7 @@
 package com.quaigon.kamil.goban.gametree;
 
-import com.quaigon.kamil.goban.CommentaryInterface;
-import com.quaigon.kamil.goban.Goban;
+import com.quaigon.kamil.goban.gobaninterface.CommentaryInterface;
+import com.quaigon.kamil.goban.gobanlogic.Goban;
 
 import java.util.ArrayList;
 import java.util.List;

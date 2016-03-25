@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 import com.quaigon.kamil.connection.AuthenticationRepository;
 import com.quaigon.kamil.connection.ConnectionService;
 import com.quaigon.kamil.connection.OAuthServiceGenrator;
-import com.quaigon.kamil.goban.GobanActivity;
+import com.quaigon.kamil.goban.view.GobanActivity;
 import com.quaigon.kamil.goban.R;
 import com.quaigon.kamil.dto.AccessToken;
 

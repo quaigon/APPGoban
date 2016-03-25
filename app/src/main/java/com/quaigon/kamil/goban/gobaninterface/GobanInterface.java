@@ -1,4 +1,4 @@
-package com.quaigon.kamil.goban;
+package com.quaigon.kamil.goban.gobaninterface;
 
 public interface GobanInterface {
     void nextState();

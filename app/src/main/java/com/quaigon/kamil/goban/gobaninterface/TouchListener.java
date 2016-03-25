@@ -1,4 +1,4 @@
-package com.quaigon.kamil.goban;
+package com.quaigon.kamil.goban.gobaninterface;
 
 /**
  * Created by Kamil on 15.03.2016.

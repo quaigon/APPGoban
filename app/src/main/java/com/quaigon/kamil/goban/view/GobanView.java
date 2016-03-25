@@ -9,10 +9,10 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.quaigon.kamil.goban.Field;
-import com.quaigon.kamil.goban.Goban;
-import com.quaigon.kamil.goban.PositionCalculator;
-import com.quaigon.kamil.goban.TouchListener;
+import com.quaigon.kamil.goban.gobanlogic.Field;
+import com.quaigon.kamil.goban.gobanlogic.Goban;
+import com.quaigon.kamil.goban.utils.PositionCalculator;
+import com.quaigon.kamil.goban.gobaninterface.TouchListener;
 
 import java.util.List;
 

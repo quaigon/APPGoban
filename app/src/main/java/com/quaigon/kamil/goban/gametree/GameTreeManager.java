@@ -1,6 +1,6 @@
 package com.quaigon.kamil.goban.gametree;
 
-import com.quaigon.kamil.goban.Goban;
+import com.quaigon.kamil.goban.gobanlogic.Goban;
 
 /**
  * Created by Kamil on 23.03.2016.
