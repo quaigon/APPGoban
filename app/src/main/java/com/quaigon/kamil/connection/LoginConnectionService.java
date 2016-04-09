@@ -1,17 +1,16 @@
 package com.quaigon.kamil.connection;
 
-import com.quaigon.kamil.dto.AccessToken;
-import com.quaigon.kamil.dto.Games;
+import com.quaigon.kamil.dto.token.AccessToken;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 
-
-public interface ConnectionService {
+/**
+ * Created by Kamil on 25.03.2016.
+ */
+public interface LoginConnectionService {
     @FormUrlEncoded
     @POST("oauth2/access_token")
     Call<AccessToken> getAccessToken(@Field("client_id") String clientid,
@@ -19,14 +18,4 @@ public interface ConnectionService {
                                      @Field("username") String username,
                                      @Field("password") String password,
                                      @Field("grant_type") String grantType);
-
-
-    @GET("/api/v1/me/games")
-    Call<Games> getGames();
-
-
-    @GET("/api/v1/games/{id}/sgf/")
-    Call<String> getSgf(@Path("id") long id);
-
-
 }

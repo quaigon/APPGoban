@@ -42,10 +42,12 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
             return actual.getMove();
         }
         Move move = null;
-        Node nextNode = actual.getNode(0);
-        actual = nextNode;
-        move = actual.getMove();
-        moveNo++;
+        if (null != actual.getNode(0)) {
+            Node nextNode = actual.getNode(0);
+            actual = nextNode;
+            move = actual.getMove();
+            moveNo++;
+        }
         return move;
     }
 
@@ -67,10 +69,12 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
         Goban goban;
         goban = new Goban(gameStates.get(gameStates.size() - 1));
         Move move = getNextMove();
-        goban.putStone(move);
-        gameStates.add(goban);
-
-        return gameStates.get(gameStates.size() - 1);
+        if (move != null) {
+            goban.putStone(move);
+            gameStates.add(goban);
+            return gameStates.get(gameStates.size() - 1);
+        }
+        return null;
     }
 
     @Override
@@ -88,7 +92,9 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
 
     @Override
     public String getComment() {
+        if (null != actual)
         return actual.getCommet();
+        return null;
     }
 
     @Override
@@ -109,5 +115,10 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
             actual = newNode;
             moveNo++;
         }
+    }
+
+    @Override
+    public boolean hasNext() {
+        return actual.hasChild();
     }
 }

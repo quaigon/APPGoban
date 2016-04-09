@@ -27,7 +27,8 @@ public class Node {
     }
 
     public Node getNode (int i) {
-        return this.nodes.get(i);
+        if (0 !=nodes.size()) return this.nodes.get(i);
+        else return null;
     }
 
     public Move getMove() {

@@ -12,6 +12,8 @@ import com.quaigon.kamil.goban.gametree.SGFGameTreeGenerator;
 import com.quaigon.kamil.goban.gobaninterface.CommentaryInterface;
 import com.quaigon.kamil.goban.gobaninterface.GobanInterface;
 import com.quaigon.kamil.goban.gobaninterface.GobanInterfaceImpl;
+import com.quaigon.kamil.goban.gobaninterface.TouchListener;
+import com.quaigon.kamil.goban.gobaninterface.WorkType;
 import com.quaigon.kamil.goban.view.GobanView;
 import com.quaigon.kamil.sgfparser.FileSGFProvider;
 import com.quaigon.kamil.sgfparser.SGFProvider;
@@ -39,6 +41,9 @@ public class GobanActivity extends RoboActionBarActivity {
     private GobanInterface gobanInterface;
 
     private CommentaryInterface commentaryInterface;
+
+    @InjectExtra(value = "workType", optional = true)
+    private WorkType workType;
 
     @InjectView(R.id.moveNo)
     private TextView moveNoView;
@@ -75,9 +80,15 @@ public class GobanActivity extends RoboActionBarActivity {
     private void initGobanInterface(SGFProvider sgfProvider) {
         SGFGameTreeGenerator sgfGameTreeGenerator = new SGFGameTreeGenerator(sgfProvider);
         GameTreeManagerImpl gameTreeManagerImpl = new GameTreeManagerImpl(sgfGameTreeGenerator.getTree());
-        GobanInterfaceImpl gobanInterfaceImpl = new GobanInterfaceImpl(gameTreeManagerImpl, gobanView, moveNoView);
-        this.gobanInterface = gobanInterfaceImpl;
-        this.commentaryInterface = gameTreeManagerImpl;
+        GobanInterfaceImpl gobanInterfaceImpl = new GobanInterfaceImpl(gameTreeManagerImpl, gobanView, moveNoView, workType);
+        gobanView.setTouchListener(new TouchListener() {
+            @Override
+            public void onPositionGet(int x, int y) {
+
+            }
+        });
+        gobanInterface = gobanInterfaceImpl;
+        commentaryInterface = gameTreeManagerImpl;
     }
 
     private int getMoveNo() {
@@ -106,6 +117,10 @@ public class GobanActivity extends RoboActionBarActivity {
                     refreshCommentariesView();
                 }
                 gobanInterface.nextState();
+                if (!gobanInterface.hasNext()) {
+                    buttonNext.setEnabled(false);
+                    gobanView.setTouchListener((TouchListener) gobanInterface);
+                }
             }
         });
 
@@ -114,6 +129,12 @@ public class GobanActivity extends RoboActionBarActivity {
             @Override
             public void onClick(View v) {
                 buttonNext.setEnabled(true);
+                gobanView.setTouchListener(new TouchListener() {
+                    @Override
+                    public void onPositionGet(int x, int y) {
+
+                    }
+                });
                 gobanInterface.prevState();
                 if (getMoveNo() == 0) {
                     buttonPrev.setEnabled(false);
@@ -132,9 +153,12 @@ public class GobanActivity extends RoboActionBarActivity {
         } else if (gameSgf != null) {
             loadSgf(this.gameSgf);
         } else {
-            GobanInterfaceImpl gobanInterfaceImpl = new GobanInterfaceImpl(new GameTreeManagerImpl(), gobanView, moveNoView);
+            GobanInterfaceImpl gobanInterfaceImpl = new GobanInterfaceImpl(new GameTreeManagerImpl(), gobanView, moveNoView, workType);
             gobanInterface = gobanInterfaceImpl;
             gobanView.setTouchListener(gobanInterfaceImpl);
         }
     }
+
+
+
 }

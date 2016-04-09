@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.quaigon.kamil.goban.view.GobanActivity;
 import com.quaigon.kamil.goban.R;
-import com.quaigon.kamil.dto.AccessToken;
+import com.quaigon.kamil.dto.token.AccessToken;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -21,6 +21,9 @@ public class MenuActivity extends RoboActivity {
     @InjectView(R.id.getGamesButton)
     private Button getGamesButon;
 
+    @InjectView(R.id.getFriendListButton)
+    private Button getFriendListButton;
+
     private static final int FILE_SELECT_CODE = 10;
 
     private AccessToken token = null;
@@ -31,7 +34,7 @@ public class MenuActivity extends RoboActivity {
         setContentView(R.layout.activity_menu);
 
 
-        this.openGameButton.setOnClickListener(new View.OnClickListener() {
+        openGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -42,10 +45,18 @@ public class MenuActivity extends RoboActivity {
         });
 
 
-        this.getGamesButon.setOnClickListener(new View.OnClickListener() {
+        getGamesButon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuActivity.this, GamesListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        getFriendListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuActivity.this, PlayerListActivity.class);
                 startActivity(intent);
             }
         });

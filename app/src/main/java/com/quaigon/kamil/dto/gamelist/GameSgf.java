@@ -1,4 +1,4 @@
-package com.quaigon.kamil.dto;
+package com.quaigon.kamil.dto.gamelist;
 
 /**
  * Created by Kamil on 13.02.2016.

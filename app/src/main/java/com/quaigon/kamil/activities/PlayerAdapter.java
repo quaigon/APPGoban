@@ -7,36 +7,32 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.quaigon.kamil.goban.R;
-import com.quaigon.kamil.dto.gamelist.Game;
 import com.quaigon.kamil.dto.player.Player;
-import com.quaigon.kamil.dto.player.Players;
+import com.quaigon.kamil.goban.R;
 
 import java.util.List;
 
+public class PlayerAdapter extends BaseAdapter {
 
-public class GameAdapter extends BaseAdapter {
-
-    private List<Game> games = null;
+    private List<Player> playersList;
     private Context contex;
     private LayoutInflater inflater;
 
-    public GameAdapter(List<Game> games, Context contex) {
-        this.games = games;
+
+    public PlayerAdapter(List<Player> playersList, Context contex) {
+        this.playersList = playersList;
         this.contex = contex;
         this.inflater = (LayoutInflater) contex.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
     }
 
     @Override
     public int getCount() {
-        return games.size();
+        return playersList.size();
     }
 
     @Override
-    public Game getItem(int position) {
-        return games.get(position);
+    public Object getItem(int position) {
+        return playersList.get(position);
     }
 
     @Override
@@ -49,39 +45,31 @@ public class GameAdapter extends BaseAdapter {
         View view = convertView;
         ViewHolder viewHolder;
 
-
         if (null == view) {
-            view = inflater.inflate(R.layout.game_item, null);
+            view = inflater.inflate(R.layout.player_item, null);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
+        Player player = (Player) getItem(position);
+        String username = player.getUsername();
+        String ranking = player.getRating();
 
-        Game game = getItem(position);
-        Players players = game.getPlayers();
-        Player white = players.getWhite();
-        Player black = players.getBlack();
-        viewHolder.gameIdTextView.setText(Long.toString(game.getId()));
-        viewHolder.gamePlayersTextView.setText(white.getUsername() + " vs " + black.getUsername());
-
+        viewHolder.usernameTextView.setText(username);
+        viewHolder.rankingTextView.setText(ranking);
 
         return view;
     }
 
-
     static class ViewHolder {
-        private TextView gameIdTextView;
-        private TextView gamePlayersTextView;
+        private TextView usernameTextView;
+        private TextView rankingTextView;
 
         public ViewHolder(View convertView) {
-            gameIdTextView = (TextView) convertView.findViewById(R.id.gameId);
-            gamePlayersTextView = (TextView) convertView.findViewById(R.id.players);
+            usernameTextView = (TextView) convertView.findViewById(R.id.usernameTextView);
+            rankingTextView = (TextView) convertView.findViewById(R.id.rankingTextView);
         }
-
-
     }
-
-
 }

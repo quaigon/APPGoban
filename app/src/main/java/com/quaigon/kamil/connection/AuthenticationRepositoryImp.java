@@ -3,7 +3,7 @@ package com.quaigon.kamil.connection;
 import android.content.SharedPreferences;
 
 import com.google.inject.Inject;
-import com.quaigon.kamil.dto.AccessToken;
+import com.quaigon.kamil.dto.token.AccessToken;
 
 
 public class AuthenticationRepositoryImp implements AuthenticationRepository {

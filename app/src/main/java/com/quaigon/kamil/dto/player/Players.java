@@ -1,4 +1,4 @@
-package com.quaigon.kamil.dto;
+package com.quaigon.kamil.dto.player;
 
 /**
  * Created by Kamil on 19.02.2016.

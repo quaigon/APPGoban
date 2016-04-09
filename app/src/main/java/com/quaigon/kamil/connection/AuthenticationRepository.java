@@ -1,7 +1,7 @@
 package com.quaigon.kamil.connection;
 
 
-import com.quaigon.kamil.dto.AccessToken;
+import com.quaigon.kamil.dto.token.AccessToken;
 
 public interface AuthenticationRepository {
 

@@ -19,4 +19,6 @@ public interface GameTreeManager  {
 
     int getMoveNo ();
 
+    boolean hasNext();
+
 }

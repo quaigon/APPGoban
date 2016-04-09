@@ -1,4 +1,4 @@
-package com.quaigon.kamil.dto;
+package com.quaigon.kamil.dto.token;
 
 /**
  * Created by Kamil on 07.02.2016.

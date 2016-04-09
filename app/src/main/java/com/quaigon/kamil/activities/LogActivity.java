@@ -11,11 +11,11 @@ import android.widget.EditText;
 
 import com.google.inject.Inject;
 import com.quaigon.kamil.connection.AuthenticationRepository;
-import com.quaigon.kamil.connection.ConnectionService;
+import com.quaigon.kamil.connection.LoginConnectionService;
 import com.quaigon.kamil.connection.OAuthServiceGenrator;
 import com.quaigon.kamil.goban.view.GobanActivity;
 import com.quaigon.kamil.goban.R;
-import com.quaigon.kamil.dto.AccessToken;
+import com.quaigon.kamil.dto.token.AccessToken;
 
 import retrofit2.Call;
 import roboguice.activity.RoboActionBarActivity;
@@ -56,8 +56,6 @@ public class LogActivity extends RoboActionBarActivity {
         this.signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 GetTokenAsyncTask getTokenAsyncTask = new GetTokenAsyncTask(LogActivity.this);
                 getTokenAsyncTask.execute();
 
@@ -100,11 +98,11 @@ public class LogActivity extends RoboActionBarActivity {
             String password = passwordEditText.getText().toString();
             String grantType = "password";
 
-            ConnectionService connectionService = OAuthServiceGenrator.createService(ConnectionService.class);
+            LoginConnectionService connectionService = OAuthServiceGenrator.createService(LoginConnectionService.class);
             Call<AccessToken> call = connectionService.getAccessToken(clientId, clientSecret, username, password, grantType);
             AccessToken accessToken = call.execute().body();
             authRepo.saveAccessToken(accessToken);
-
+            Ln.d(accessToken.getAccess_token());
             return null;
         }
 

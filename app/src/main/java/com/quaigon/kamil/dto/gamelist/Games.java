@@ -1,4 +1,4 @@
-package com.quaigon.kamil.dto;
+package com.quaigon.kamil.dto.gamelist;
 
 import java.util.List;
 
