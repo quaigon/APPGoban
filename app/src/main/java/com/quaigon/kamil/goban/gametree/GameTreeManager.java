@@ -1,17 +1,17 @@
 package com.quaigon.kamil.goban.gametree;
 
-import com.quaigon.kamil.goban.gobanlogic.Goban;
+import com.quaigon.kamil.goban.gobanlogic.GobanModel;
 
 /**
  * Created by Kamil on 23.03.2016.
  */
 public interface GameTreeManager  {
 
-    Goban getNextState();
+    GobanModel getNextState();
 
-    Goban getPrevState();
+    GobanModel getPrevState();
 
-    Goban getLast();
+    GobanModel getLast();
 
     String getComment();
 

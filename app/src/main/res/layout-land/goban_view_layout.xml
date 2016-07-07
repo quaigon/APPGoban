@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.quaigon.kamil.goban.view.GobanView
+    <com.quaigon.kamil.gobanModel.view.GobanView
         android:id="@+id/goban_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

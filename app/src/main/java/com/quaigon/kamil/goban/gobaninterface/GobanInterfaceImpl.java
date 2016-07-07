@@ -4,14 +4,11 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.quaigon.kamil.connection.GameConnectionService;
-import com.quaigon.kamil.connection.LoginConnectionService;
 import com.quaigon.kamil.connection.OAuthServiceGenrator;
 import com.quaigon.kamil.dto.gamelist.MoveContainer;
 import com.quaigon.kamil.dto.gamelist.Response;
-import com.quaigon.kamil.dto.token.AccessToken;
 import com.quaigon.kamil.goban.gametree.GameTreeManager;
 import com.quaigon.kamil.goban.gametree.Move;
-import com.quaigon.kamil.goban.gobanlogic.Goban;
 import com.quaigon.kamil.goban.view.GobanView;
 
 import retrofit2.Call;
@@ -35,7 +32,7 @@ public class GobanInterfaceImpl implements GobanInterface, TouchListener {
     public void onPositionGet(int x, int y) {
         int color = gameTreeManager.getMoveNo() % 2 == 0 ? 1 : 0;
         gameTreeManager.putMove(new Move(x, y, color));
-        gobanView.setGobanModel(gameTreeManager.getLast());
+        gobanView.setGobanModelModel(gameTreeManager.getLast());
         if (WorkType.PLAY == workType) {
 
         }
@@ -45,13 +42,13 @@ public class GobanInterfaceImpl implements GobanInterface, TouchListener {
 
     @Override
     public void nextState() {
-        gobanView.setGobanModel(gameTreeManager.getNextState());
+        gobanView.setGobanModelModel(gameTreeManager.getNextState());
         refreshView();
     }
 
     @Override
     public void prevState() {
-        gobanView.setGobanModel(gameTreeManager.getPrevState());
+        gobanView.setGobanModelModel(gameTreeManager.getPrevState());
         refreshView();
     }
 

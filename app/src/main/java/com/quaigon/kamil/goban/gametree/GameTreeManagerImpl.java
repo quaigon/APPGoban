@@ -1,7 +1,7 @@
 package com.quaigon.kamil.goban.gametree;
 
 import com.quaigon.kamil.goban.gobaninterface.CommentaryInterface;
-import com.quaigon.kamil.goban.gobanlogic.Goban;
+import com.quaigon.kamil.goban.gobanlogic.GobanModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
     private Node root;
     private Node actual;
     private int moveNo;
-    private List<Goban> gameStates;
+    private List<GobanModel> gameStates;
 
 
     public GameTreeManagerImpl() {
@@ -28,7 +28,7 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
     private void init() {
         this.moveNo = 0;
         this.gameStates = new ArrayList<>();
-        gameStates.add(new Goban());
+        gameStates.add(new GobanModel());
     }
 
     @Override
@@ -65,27 +65,27 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
     }
 
     @Override
-    public Goban getNextState() {
-        Goban goban;
-        goban = new Goban(gameStates.get(gameStates.size() - 1));
+    public GobanModel getNextState() {
+        GobanModel gobanModel;
+        gobanModel = new GobanModel(gameStates.get(gameStates.size() - 1));
         Move move = getNextMove();
         if (move != null) {
-            goban.putStone(move);
-            gameStates.add(goban);
+            gobanModel.putStone(move);
+            gameStates.add(gobanModel);
             return gameStates.get(gameStates.size() - 1);
         }
         return null;
     }
 
     @Override
-    public Goban getPrevState() {
+    public GobanModel getPrevState() {
         Move move = getPrevMove();
         gameStates.remove(gameStates.size() - 1);
         return gameStates.get(gameStates.size() - 1);
     }
 
     @Override
-    public Goban getLast() {
+    public GobanModel getLast() {
         if (gameStates.size() > 0) return gameStates.get(gameStates.size() - 1);
         else return null;
     }
@@ -100,9 +100,9 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
     @Override
     public void putMove(Move move) {
         Node newNode;
-        Goban goban = gameStates.get(gameStates.size() - 1);
+        GobanModel gobanModel = gameStates.get(gameStates.size() - 1);
 
-        if (goban.isEmpty(move)) {
+        if (gobanModel.isEmpty(move)) {
             if (null != actual) {
                 newNode = new Node(actual, move);
                 actual.addChild(newNode);
@@ -110,8 +110,8 @@ public class GameTreeManagerImpl implements GameTreeManager, CommentaryInterface
                 newNode = new Node(null, move);
                 root = newNode;
             }
-            goban.putStone(move);
-            gameStates.add(goban);
+            gobanModel.putStone(move);
+            gameStates.add(gobanModel);
             actual = newNode;
             moveNo++;
         }

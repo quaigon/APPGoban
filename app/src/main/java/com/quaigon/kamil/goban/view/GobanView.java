@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.quaigon.kamil.goban.gobanlogic.Field;
-import com.quaigon.kamil.goban.gobanlogic.Goban;
+import com.quaigon.kamil.goban.gobanlogic.GobanModel;
 import com.quaigon.kamil.goban.utils.PositionCalculator;
 import com.quaigon.kamil.goban.gobaninterface.TouchListener;
 
@@ -23,7 +23,7 @@ public class GobanView extends View {
     boolean isBlack = true;
 
     private Context context;
-    private Goban gobanModel;
+    private GobanModel gobanModelModel;
     private DisplayMetrics dm;
     private Paint paint;
     private PositionCalculator positionCalculator;
@@ -69,8 +69,8 @@ public class GobanView extends View {
         this.paint = new Paint();
     }
 
-    public void setGobanModel(Goban gobanModel) {
-        this.gobanModel = gobanModel;
+    public void setGobanModelModel(GobanModel gobanModelModel) {
+        this.gobanModelModel = gobanModelModel;
     }
 
     @Override
@@ -106,8 +106,8 @@ public class GobanView extends View {
             canvas.drawLine((1 + i) * squareWidth, squareHeight, (1 + i) * squareWidth, 19 * squareHeight, paint);
         }
 
-        if (gobanModel != null) {
-            List<Field> fields = gobanModel.getNonEmptyFields();
+        if (gobanModelModel != null) {
+            List<Field> fields = gobanModelModel.getNonEmptyFields();
 
             if (radius % 2 != 0) {
                 radius = radius - 1;

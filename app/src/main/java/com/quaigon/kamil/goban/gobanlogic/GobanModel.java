@@ -10,20 +10,20 @@ import java.util.List;
 
 import roboguice.util.Ln;
 
-public class Goban implements GroupManagerListener {
+public class GobanModel implements GroupManagerListener {
 
     private Field[][] fields;
     private GroupManager groupManager;
 
-    public Goban() {
+    public GobanModel() {
         this.groupManager = new GroupManager();
         this.groupManager.setGroupManagerListener(this);
         initBoard();
     }
 
-    public Goban(Goban goban) {
+    public GobanModel(GobanModel gobanModel) {
         initBoard();
-        copyGoban(goban);
+        copyGoban(gobanModel);
     }
 
     private void initBoard() {
@@ -43,12 +43,12 @@ public class Goban implements GroupManagerListener {
         return isEmpty(move.getX(), move.getY());
     }
 
-    public void copyGoban(Goban goban) {
+    public void copyGoban(GobanModel gobanModel) {
         initBoard();
-        for (Field field : goban.getNonEmptyFields()) {
+        for (Field field : gobanModel.getNonEmptyFields()) {
             this.fields[field.getX()][field.getY()].setStone(new Stone(field.getStone().getColor()));
         }
-        this.groupManager = new GroupManager(goban.getGroupManager());
+        this.groupManager = new GroupManager(gobanModel.getGroupManager());
         this.groupManager.setGroupManagerListener(this);
     }
 

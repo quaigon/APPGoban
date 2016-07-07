@@ -9,8 +9,8 @@ android {
             storePassword 'quaigonpassword'
         }
     }
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 24
+    buildToolsVersion "24.0"
     defaultConfig {
         applicationId "com.quaigon.kamil.goban"
         minSdkVersion 16
@@ -41,11 +41,11 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     provided 'org.roboguice:roboblender:3.+'
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'org.roboguice:roboguice:3.+'
-    compile 'com.android.support:design:22.2.1'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 }
 
 project.tasks.withType(JavaCompile) { task ->
